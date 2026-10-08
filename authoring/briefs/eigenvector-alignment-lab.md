@@ -25,9 +25,9 @@ The app is a game about direction and matrix multiplication, **not** a technical
 - Register `eigen-mission@1` with a strict per-mode `config` and `copy` schema. For new keys below, extend schema without weakening the unknown/missing-key checks. Fail visibly on unsupported config, rather than substituting a different activity.
 - Stage progress: seven distinct stages; one active stage at a time. Each stage's `title`, `body`, `question` (if any), `submitLabel`, `retryLabel`, `hintLabel`, `hintText`, feedback and follow-up explanation are direct authored text.
 - Clicking Check commits an answer. Correctness never follows from moving a control or selecting an item alone. Incorrect answers remain editable and show the exact relevant feedback. Reattempting clears stale feedback. After full stage success, reveal its authored explanation and the sole `actions[0]` navigation.
-- Answer/result coordinates remain concealed until full stage success for stages 1, 4, 6 and 7. Conceal in drawn vectors, numerical readouts, accessible names/descriptions, tooltips and any other UI. A multiple-choice option may necessarily contain a correct numerical alternative; wrong feedback/hints must not disclose the complete solution. Stage 5 deliberately shows both arrows from the outset.
+- Unearned answer/result coordinates remain concealed for stages 1, 4, 6 and 7. In stage 7, once the learner has correctly submitted the output, the author permits a compact recap of **their confirmed numbers** in the next phase; no diagrams appear until the entire challenge is complete. Conceal in drawn vectors, numerical readouts, accessible names/descriptions, tooltips and any other UI. A multiple-choice option may necessarily contain a correct numerical alternative; wrong feedback/hints must not disclose the complete solution. Stage 5 deliberately shows both arrows from the outset.
 - Use source solid teal `#087f8c`, result dashed orange `#b94e20`, equal-scale Cartesian axes in [-7, 7], full straight-line direction guide through origin (not only a forward ray), snap-on-grid where specified, authored animation 650 ms, and immediate result fallback under reduced motion. Arrow tips must land at mathematically precise coordinates.
-- Hints are shown using the authored `hintText`, never generative teaching. Respect `offerHintAfterAttempts` and retain hint/attempt metrics locally. No tracking services or accounts.
+- Hints are shown using the authored `hintText`, never generative teaching. Respect `offerHintAfterAttempts` and retain hint/attempt metrics locally. Stages 4, 6 and 7 now have `offerHintAfterAttempts: 0`, so **Show a hint** is immediately available (but optional); its use is tracked separately from unaided completion. No tracking services or accounts.
 - Maintain keyboard and pointer interaction. The component must not introduce browser-native validation sentences or other implementation-written learner prose.
 - One visible task means **only the current phase's controls and prompt** appear. Do not show dormant future-phase fields, labels, captions or instructions.
 
@@ -49,7 +49,7 @@ Upon `submitLabel`: (0,0) ⇒ `feedbackZero`; any turning vector ⇒ `feedbackTu
 
 ### 4. Calculate (`calculate-output`)
 
-Matrix [[1,1],[0,1]], input (2,1), correct output (3,1). Keep orange vector hidden. Show the current short authored body, question and TWO coordinates. Submit evaluates invalid / x correct only / y correct only / neither / both correct, using exact authored feedback keys. Correct reveals arrow and explanation; never show result in graph description/readouts earlier.
+Matrix [[1,1],[0,1]], input (2,1), correct output (3,1). Keep orange vector hidden. Show the short authored body, question and TWO coordinates. The learner may request the authored hint immediately (`offerHintAfterAttempts: 0`). Submit evaluates invalid / x correct only / y correct only / neither / both correct, using exact authored feedback keys. Correct reveals arrow and explanation; never show result in graph description/readouts earlier.
 
 ### 5. Reverse (`classify-and-scale`) — **NEW progressive phases**
 
@@ -70,7 +70,7 @@ The matrix stays [[-2,0],[0,1]], source (1,0), result (-2,0), both arrows and in
 
 ### 6. Discover two (`two-directions`) — **NEW progressive phases**
 
-Matrix [[2,1],[1,2]], four candidate vectors A=(1,1), B=(1,-1), C=(2,1), D=(1,0). The matrix and candidate source diagrams remain visible. Result diagrams/readouts stay concealed until **after both phases**. The `config.answerSequence` requires `["choose-directions","enter-multipliers"]`.
+Matrix [[2,1],[1,2]], four candidate vectors A=(1,1), B=(1,-1), C=(2,1), D=(1,0). The learner may request the authored hint immediately. The matrix and candidate source diagrams remain visible. Result diagrams/readouts stay concealed until **after both phases**. The `config.answerSequence` requires `["choose-directions","enter-multipliers"]`.
 
 **Phase 1: choose-directions.**
 - Show only `question`, `selectLabel`, candidate choices, and **`directionSubmitLabel`**. Do not render scalar/multiplier fields or `multiplierQuestion` yet.
@@ -87,15 +87,15 @@ Matrix [[2,1],[1,2]], four candidate vectors A=(1,1), B=(1,-1), C=(2,1), D=(1,0)
 
 ### 7. Exit ticket (`exit-ticket`) — **NEW progressive phases**
 
-Matrix [[3,0],[0,2]]. No visual result arrow, diagram, output readout or answer-bearing accessible description before **the entire exit ticket** is solved. The `config.answerSequence` requires `["calculate-output","find-eigenvalue","classify-vector"]`.
+Matrix [[3,0],[0,2]]. No visual result arrow, diagram, or unearned numerical/accessible answer before **the entire exit ticket** is solved. A verified answer from a completed earlier phase may be shown as explicitly authored earned context in the following phase. The `config.answerSequence` requires `["calculate-output","find-eigenvalue","classify-vector"]`.
 
 **Phase 1: calculate-output.**
 - Show `partAQuestion` about (2,0), the two `partAFirstInputLabel/partASecondInputLabel` controls, and **`outputSubmitLabel`**.
 - Missing/non-numeric ⇒ `feedbackInvalid`; otherwise wrong coordinates ⇒ `feedbackWrongOutput`.
-- Correct output (6,0) ⇒ show **`outputCorrectText`** + `phaseContinueLabel`; lock current inputs and wait for Continue.
+- Correct output (6,0) ⇒ show **`outputCorrectText`** + `phaseContinueLabel`; lock current inputs and wait for Continue. This earned result may be shown in the **next phase** as the authored `outputConfirmedText`; it must NOT be shown before the calculation is committed correctly.
 
 **Phase 2: find-eigenvalue.**
-- Show `partAScaleQuestion`, `partAScaleInputLabel` and **`scaleSubmitLabel`** only. Do not show Part B yet.
+- Show the short, already-earned **`outputConfirmedText`** as context alongside `partAScaleQuestion`, `partAScaleInputLabel` and **`scaleSubmitLabel`**. Do not show Part B yet. Do not force the learner to remember the numeric result from the prior phase.
 - Missing/non-numeric ⇒ `feedbackInvalid`; incorrect λ ≠ 3 ⇒ `feedbackWrongScale`.
 - Correct λ=3 ⇒ `scaleCorrectText` + `phaseContinueLabel`; wait for Continue.
 
