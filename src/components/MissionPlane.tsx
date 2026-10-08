@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from 'react';
 import type { Vector } from '../spec/schema';
 import type { MissionConfig } from '../spec/eigenMission';
+import { AuthoredText } from './AuthoredText';
 
 function useResult(target: Vector, source: Vector, visible: boolean, duration: number, revealOnMount: boolean) {
   const [value, setValue] = useState(visible && !revealOnMount ? target : source);
@@ -60,7 +61,7 @@ export function MissionPlane({ source, result, visible, guide, display, copy, dr
     drag([snap((local.x - 238) / 30), snap((238 - local.y) / 30)]);
   }
   return <figure className="mission-plane">
-    <figcaption>{caption ?? copy.graphLabel}</figcaption>
+    <figcaption><AuthoredText text={caption ?? copy.graphLabel} /></figcaption>
     <svg viewBox="0 0 476 476" role={drag ? 'group' : 'img'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-desc`}>
       <title id={`${id}-title`}>{copy.graphLabel}</title><desc id={`${id}-desc`}>{description}</desc>
       <g className="mission-grid" aria-hidden="true">
@@ -92,8 +93,8 @@ export function MissionPlane({ source, result, visible, guide, display, copy, dr
       </g>}
     </svg>
     <div className="mission-readouts">
-      <div><i className="mission-source-swatch" style={{ borderColor: display.sourceColor }} /><span>{copy.inputLabel}</span><output>{`(${source.join(', ')})`}</output></div>
-      {visible && <div data-testid="mission-result"><i className="mission-result-swatch" style={{ borderColor: display.outputColor }} /><span>{copy.outputLabel}</span><output>{`(${result.join(', ')})`}</output></div>}
+      <div><i className="mission-source-swatch" style={{ borderColor: display.sourceColor }} /><span>{copy.inputLabel}</span><output><AuthoredText text={`(${source.join(', ')})`} /></output></div>
+      {visible && <div data-testid="mission-result"><i className="mission-result-swatch" style={{ borderColor: display.outputColor }} /><span>{copy.outputLabel}</span><output><AuthoredText text={`(${result.join(', ')})`} /></output></div>}
     </div>
   </figure>;
 }

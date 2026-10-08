@@ -4,6 +4,7 @@ import { extensions } from './spec/extensions';
 import { StatusBanner } from './diagnostics';
 import { VectorActivity } from './components/VectorActivity';
 import type { MissionAssessment } from './engine/eigen';
+import { AuthoredText } from './components/AuthoredText';
 
 export function App({ spec }: { spec: Experience }) {
   const [current, setCurrent] = useState(spec.start);
@@ -27,7 +28,7 @@ export function App({ spec }: { spec: Experience }) {
     <main>
       <section className="step-heading">
         <h2 ref={heading} tabIndex={-1} data-copy={`steps.${step.id}.title`}>{step.title}</h2>
-        {step.body.map((paragraph, i) => <p key={i} data-copy={`steps.${step.id}.body.${i}`}>{paragraph}</p>)}
+        {step.body.map((paragraph, i) => <p key={i} data-copy={`steps.${step.id}.body.${i}`}>{spec.id === 'eigenvector-alignment-lab' ? <AuthoredText text={paragraph} /> : paragraph}</p>)}
       </section>
       {step.kind === 'vector-transform' && <VectorActivity key={`${step.id}-${visit}`} step={step} navigate={navigate} />}
       {step.kind === 'message' && <button onClick={() => navigate(step.action.target)}>{step.action.label}</button>}

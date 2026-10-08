@@ -2,6 +2,8 @@
 
 Implements the seven challenges authored in PR #2. This is a review build, not an educational approval. The implementation PR targets `authoring/eigenvector-alignment-lab`; it must not merge directly to `main`.
 
+**Latest user feedback, 2026-10-08:** Chris requires vectors stacked vertically everywhere, explicitly including authored sentences and choices. The revised screenshots and renderer use column vectors with square brackets. This overrides the original plain-text presentation constraint for vector notation only; all source content bytes, words, component values and accessible expression labels are preserved. Earlier tuple-format screenshots are superseded.
+
 ## Frozen content
 
 - Authoring commit: `0beb0d8c7c1ecc4036b6300a029a12db08d1346b`.
@@ -68,6 +70,7 @@ The review checked the actual seven before/after pairs on both screen sizes agai
 4. Coincident source/result arrows could conceal one encoding at eigenvalue 1. A wider solid source and smaller dashed result/arrowhead preserve both, with separate exact readouts. Arrowhead tips end at the mathematical endpoint rather than beyond it.
 5. Candidate checkboxes and scalar fields have distinct accessible roles, with scalar names including the candidate and multiplier label. Tests initially used ambiguous label selectors; role-specific selectors now verify the real controls. No learner copy was changed to accommodate tests.
 6. The original framework only accepted kebab-case copy keys. It now accepts authored camelCase keys, while strict per-mode schemas reject missing/unknown copy and config keys. Cross-validation rejects mismatched copy modes and independently checks supplied mathematical answers.
+7. Chris's notation correction applies to all vector expressions, not only readouts. The renderer splits existing pairs into stacked components while preserving the original text exactly. Square brackets replace initially ambiguous vertical bars visually. Each vector's accessible math name remains its exact original expression; this avoids inserting layout-induced spaces into checkbox and scalar-field names. Mobile and desktop screenshots were recaptured after this correction.
 
 The copy guard change permits conditional values in existing technical attributes (such as SVG `role`). It does not exempt `aria-label`, explanations or generated sentences; regression tests confirm these remain rejected. Separate generated extension schemas and a semantic validation hook are explicit authoring-contract changes, documented in `docs/INTERACTIONS.md`.
 

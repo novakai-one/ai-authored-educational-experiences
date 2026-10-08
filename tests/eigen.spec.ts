@@ -4,6 +4,12 @@ import { authored, missions, enter, start, fill, check, solve, hiddenResult } fr
 
 test('prediction and classification show each exact feedback branch, and gate hints/reveals/continuation', async ({ page }) => {
   await start(page); const s = missions[0];
+  const vector = page.locator('.mission-plane output .column-vector');
+  await expect(vector).toHaveAccessibleName('(2, 1)');
+  await expect(vector.locator('.vector-component')).toHaveText(['2', '1']);
+  const positions = await vector.locator('.vector-component').evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y, bottom: r.bottom }; }));
+  expect(positions[1].y).toBeGreaterThanOrEqual(positions[0].bottom);
+  expect(positions[1].x).toBeCloseTo(positions[0].x);
   await hiddenResult(page, s);
   await expect(page.getByRole('button', { name: s.copy.submitLabel })).toBeDisabled();
   await expect(page.getByRole('button', { name: s.copy.hintLabel })).toHaveCount(0);

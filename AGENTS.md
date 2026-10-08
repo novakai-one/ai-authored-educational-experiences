@@ -41,3 +41,12 @@ Do not edit approved content to make the implementation pass. Do not mark implem
 Review the complete output against the requested outcome before handoff and record concrete findings and repairs in the implementation evidence. For publication, verify the deployed HTTPS page and its exact specification hash, not only a successful build or uploaded artifact. Confirm live repository settings before claiming branch protection is active. A connected GitHub account does not by itself establish that the author's session has file-writing tools; use the access prerequisite in `AUTHORING.md`.
 
 For hidden-result activities, inspect DOM and accessible descriptions as well as visible arrows: an authored graph description may contain the answer and must be gated with the reveal. Preserve explicitly triggered authored feedback verbatim, and report any tension between that feedback and the hidden-answer contract to ChatGPT. Capture every mode before and after success at desktop and mobile widths. Check reveals that mount new diagrams as well as reveals inside existing diagrams; both must honor the authored animation and reduced-motion behavior.
+
+## Current user-directed presentation rule (2026-10-08)
+
+Chris requires every vector expression in the Alignment Lab to appear as a vertical column, including authored sentences, choices and diagram readouts. This explicitly overrides the plain-text presentation constraint for vector notation only. Preserve the authored file bytes, words, component values and accessible names; typeset the existing expressions without paraphrasing or adding education.
+
+## Show game review evidence as work progresses
+
+Send me screenshots of the game for the bits you have played / signing off on and describe exactly what you see and what you are assessing - i need to understand what you are looking for and identify if there is anything we are seeing differently.
+Paste in the conversation here as you go with commentary as per above.
