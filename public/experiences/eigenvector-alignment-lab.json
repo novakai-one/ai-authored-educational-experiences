@@ -33,7 +33,7 @@
       "kind": "message",
       "title": "The Alignment Lab",
       "body": [
-        "A matrix changes an arrow. Most arrows turn. A few stay on the same straight line.",
+        "A matrix can change an arrow's length or direction. Some arrows stay on the same straight line.",
         "Let's find out which ones."
       ],
       "action": {
@@ -442,7 +442,9 @@
         "a11yChoices": "First decide whether both arrows lie on one line. Then enter the multiplier.",
         "a11yReveal": "The orange arrow is -2 times the teal arrow. The eigenvalue is negative.",
         "lineSubmitLabel": "Check the line",
-        "lineCorrectText": "Yes. They point opposite ways, but share the same line."
+        "lineCorrectText": "Yes. They point opposite ways, but share the same line.",
+        "feedbackInvalidMultiplier": "Enter a number.",
+        "phaseContinueLabel": "Continue"
       },
       "config": {
         "mode": "classify-and-scale",
@@ -529,12 +531,14 @@
         "feedbackWrongScaleA": "A is a correct direction. Check how much it stretches.",
         "feedbackWrongScaleB": "B is a correct direction. Check whether its length changes.",
         "feedbackCorrect": "Yes. Both directions stay on their original lines.",
-        "revealExplanation": "A = (1, 1) becomes (3, 3): eigenvalue 3. B = (1, −1) stays (1, −1): eigenvalue 1. Eigenvectors can point diagonally too.",
+        "revealExplanation": "Arrow A, (1, 1), becomes (3, 3): eigenvalue 3. Arrow B, (1, −1), stays (1, −1): eigenvalue 1. Eigenvectors can point diagonally too.",
         "a11yChoices": "First choose two candidate arrows. Then enter their multipliers. Results stay hidden until both multipliers are right.",
         "a11yReveal": "A stretches by 3. B stays unchanged with multiplier 1.",
         "directionSubmitLabel": "Check the directions",
         "directionCorrectText": "Both directions work. Now find their multipliers.",
-        "multiplierQuestion": "What number multiplies each arrow?"
+        "multiplierQuestion": "What number multiplies each arrow?",
+        "feedbackInvalidMultipliers": "Enter a number for both arrows.",
+        "phaseContinueLabel": "Continue"
       },
       "config": {
         "mode": "two-directions",
@@ -657,7 +661,8 @@
         "outputSubmitLabel": "Check the output",
         "outputCorrectText": "The output is right. Now compare it with the input.",
         "scaleSubmitLabel": "Check the multiplier",
-        "scaleCorrectText": "That's right. One last question."
+        "scaleCorrectText": "That's right. One last question.",
+        "phaseContinueLabel": "Continue"
       },
       "config": {
         "mode": "exit-ticket",
