@@ -4,6 +4,8 @@ An experiment in **ChatGPT authoring the complete educational experience** and c
 
 Public repository: [novakai-one/ai-authored-educational-experiences](https://github.com/novakai-one/ai-authored-educational-experiences). Default branch: `main`. A clean [`authoring/first-experience`](https://github.com/novakai-one/ai-authored-educational-experiences/tree/authoring/first-experience) branch is ready for the first authored experience.
 
+**[Open the hosted technical demonstration](https://novakai-one.github.io/ai-authored-educational-experiences/).** See [publication verification](docs/evidence/PUBLICATION.md) for the deployed commit, live checks and repository safeguards.
+
 The included linear algebra activity is an **unapproved technical placeholder**, not a lesson about eigenvectors. No actual educational experience has been approved. Software tests do not establish educational quality.
 
 ## Start here
@@ -44,7 +46,7 @@ src/diagnostics.tsx      Allowlisted technical status/error copy only
 scripts/                 Validation, schema generation and content-boundary checks
 tests/                   Contract, copy-integrity and browser fidelity tests
 docs/                    Workflow, capabilities, review checklist and evidence
-.github/                 CI, preview artifacts, optional Pages deployment and PR templates
+.github/                 CI, preview artifacts, Pages deployment and PR templates
 AGENTS.md                Rules for software implementers
 AUTHORING.md             Instructions and example for ChatGPT
 ```
@@ -67,6 +69,8 @@ CI validates, builds, runs Chromium tests and uploads `preview-dist` and `implem
 
 Find these artifacts in a successful [Verify implementation run](https://github.com/novakai-one/ai-authored-educational-experiences/actions/workflows/ci.yml). Select the run for the exact implementation commit under review; GitHub sign-in is required to download Actions artifacts.
 
-The Pages workflow is ready for an owner to enable **Settings → Pages → Source: GitHub Actions**, then run **Deploy preview**. It publishes the technical demonstration. PR previews are downloadable artifacts; this repository does not automatically publish unreviewed PR code to the public site.
+GitHub Pages is enabled with **GitHub Actions** as its source. To publish an update, merge reviewed changes to `main`, then run **Actions → Deploy preview → Run workflow → main**. The workflow reruns the full checks before deploying. Publishing is manual, so the hosted site stays on the last deployed commit until that workflow succeeds. PR previews are downloadable artifacts.
+
+`main` requires a pull request, passing `verify` and `content-boundary` checks on an up-to-date branch, and resolved review conversations. These rules apply to administrators too. Force-pushes and branch deletion are disabled. See [the workflow](docs/WORKFLOW.md#github-enforcement) for the single-account review limitation.
 
 Default branch: `main`. This repository is independent of `claude-ai-demo`.
