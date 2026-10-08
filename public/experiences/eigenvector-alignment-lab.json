@@ -1,0 +1,760 @@
+{
+  "$schema": "../../schema/experience.schema.json",
+  "schemaVersion": 1,
+  "id": "eigenvector-alignment-lab",
+  "status": "draft",
+  "author": "ChatGPT",
+  "title": "The Alignment Lab — Discover eigenvectors",
+  "locale": "en",
+  "notice": "CHATGPT-AUTHORED DRAFT — requires implementation and educational play review. Not yet an approved lesson.",
+  "objectives": [
+    "Distinguish a matrix changing an arrow's direction from merely changing its length or reversing it.",
+    "Predict a concrete 2×2 matrix output before seeing the result, then connect it to direction.",
+    "Discover a non-zero eigendirection by active manipulation and verify it numerically.",
+    "Compute A v by row-by-vector multiplication; test whether A v = λ v using one scalar for both coordinates.",
+    "Identify a negative eigenvalue as reversal along the same line and recognise non-axis eigendirections.",
+    "Transfer the test to an unseen matrix without visual assistance."
+  ],
+  "successCriteria": [
+    "Each of the seven challenge screens initially presents one task, one action and only enough information to attempt it; detailed teaching follows the response.",
+    "Challenge 1 requires a committed prediction before displaying the result. Challenge 2 asks the learner to compare direction using the dotted guide.",
+    "Challenge 3 requires the learner to move the teal dot and commit a non-zero horizontal solution; a zero vector is rejected with feedback only when attempted.",
+    "Challenge 4 requires a calculated result without revealing the transformed arrow first; feedback distinguishes x-only and y-only correctness.",
+    "Challenge 5 shows only the line-classification decision first, then the multiplier question, and correctly accepts a negative multiplier.",
+    "Challenge 6 first checks the TWO candidate directions, then reveals multiplier inputs for only those directions. No transformed arrows appear before full success.",
+    "Challenge 7 presents output calculation, scalar, and second-vector classification as three consecutive phases. No diagrams before full success.",
+    "Every learner-facing string, including newly required phase buttons and transitional feedback, is from this specification. No coder-generated teaching.",
+    "Real learning remains unverified until a learner can complete a later transfer task independently and reports the instructions clear.",
+    "At the exit-ticket multiplier phase, show only the previously confirmed output (2, 0) → (6, 0) as a compact authored reference, so the learner does not have to memorise their prior calculation. This is earned feedback, not an early answer leak.",
+    "Hints are available on request immediately for the harder calculate-output, two-directions and exit-ticket stages; using a hint is recorded separately from completing unaided."
+  ],
+  "start": "briefing",
+  "steps": [
+    {
+      "id": "briefing",
+      "kind": "message",
+      "title": "The Alignment Lab",
+      "body": [
+        "A matrix can change an arrow's length or direction. Some arrows stay on the same straight line.",
+        "Let's find out which ones."
+      ],
+      "action": {
+        "label": "Start",
+        "target": "predict-output"
+      }
+    },
+    {
+      "id": "predict-output",
+      "kind": "custom",
+      "title": "What will the matrix do?",
+      "body": [
+        "This matrix doubles x. It leaves y unchanged."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 1 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "A teal arrow runs from the origin to (2, 1). After the answer, an orange arrow appears to (4, 1). The arrows lie on different lines.",
+        "submitLabel": "Check",
+        "retryLabel": "Try another",
+        "hintLabel": "Show a hint",
+        "hintText": "For the new x, multiply 2 by the teal x coordinate. Keep y as it is.",
+        "question": "Where will the orange arrow end?",
+        "choiceA": "A — (4, 1)",
+        "choiceB": "B — (2, 1)",
+        "choiceC": "C — (4, 2)",
+        "choiceD": "D — (1, 2)",
+        "feedbackA": "Yes. x doubles from 2 to 4. y stays at 1.",
+        "feedbackB": "The matrix changes x. This answer leaves it unchanged.",
+        "feedbackC": "You've doubled y too. Only x doubles.",
+        "feedbackD": "Check which coordinate the matrix doubles.",
+        "revealExplanation": "Look at the arrows. The teal ends at (2, 1); the orange ends at (4, 1). The orange arrow has turned.",
+        "a11yChoices": "Choose where the orange arrow will end. It stays hidden until the correct choice.",
+        "a11yReveal": "The orange arrow ends at (4, 1), off the original teal line."
+      },
+      "config": {
+        "mode": "predict-output",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "vector": [
+          2,
+          1
+        ],
+        "choices": [
+          {
+            "id": "a",
+            "vector": [
+              4,
+              1
+            ]
+          },
+          {
+            "id": "b",
+            "vector": [
+              2,
+              1
+            ]
+          },
+          {
+            "id": "c",
+            "vector": [
+              4,
+              2
+            ]
+          },
+          {
+            "id": "d",
+            "vector": [
+              1,
+              2
+            ]
+          }
+        ],
+        "correctId": "a",
+        "resultVisibility": "after-correct-commit",
+        "offerHintAfterAttempts": 1,
+        "revealGuideAfterSuccess": true
+      },
+      "actions": [
+        {
+          "label": "Next",
+          "target": "decide-line"
+        }
+      ]
+    },
+    {
+      "id": "decide-line",
+      "kind": "custom",
+      "title": "Did it turn?",
+      "body": [
+        "The dotted line follows the teal arrow."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 2 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "The dotted line follows the teal arrow through (2, 1). The orange arrow ends at (4, 1), below that line.",
+        "submitLabel": "Check",
+        "retryLabel": "Try another",
+        "hintLabel": "Show a hint",
+        "hintText": "Follow the dotted line past the teal arrow. Does it reach the orange tip?",
+        "question": "Is the orange arrow on that line?",
+        "choiceA": "Yes — same line",
+        "choiceB": "No — different line",
+        "choiceC": "They are exactly the same arrow",
+        "feedbackA": "Look at the orange tip. It sits below the dotted line.",
+        "feedbackB": "Correct. The orange tip is off the dotted line.",
+        "feedbackC": "The tips are at different places, and the arrows point at different angles.",
+        "revealExplanation": "When the result leaves the original line, the matrix has changed the arrow's direction.",
+        "a11yChoices": "A line extends through the teal arrow and the origin. Is the orange arrow on it?",
+        "a11yReveal": "The orange arrow is not on the teal arrow's line."
+      },
+      "config": {
+        "mode": "classify-line",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "vector": [
+          2,
+          1
+        ],
+        "options": [
+          {
+            "id": "a"
+          },
+          {
+            "id": "b"
+          },
+          {
+            "id": "c"
+          }
+        ],
+        "correctId": "b",
+        "resultVisibility": "initial",
+        "directionGuideVisibility": "initial"
+      },
+      "actions": [
+        {
+          "label": "Next",
+          "target": "hunt-direction"
+        }
+      ]
+    },
+    {
+      "id": "hunt-direction",
+      "kind": "custom",
+      "title": "Make the arrows line up",
+      "body": [
+        "Move the teal dot. Watch the orange arrow."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 3 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "Move the teal arrow's tip across whole-number grid points. The orange arrow changes with it. The dotted line follows the teal arrow through the origin.",
+        "submitLabel": "Check",
+        "retryLabel": "Try again",
+        "hintLabel": "Show a hint",
+        "hintText": "Try making the teal y coordinate zero. What changes?",
+        "question": "Can you get the orange arrow onto the dotted line?",
+        "dragLabel": "Drag the teal dot",
+        "xCoordinateLabel": "Teal x",
+        "yCoordinateLabel": "Teal y",
+        "feedbackZero": "The dot is at the origin. Move it away from (0, 0) and try again.",
+        "feedbackTurned": "Not yet. The orange arrow is still off the dotted line.",
+        "feedbackCorrect": "Yes. Both arrows are on the same line.",
+        "revealExplanation": "Here the matrix adds y to x. When y is zero, the arrow doesn't change. Every non-zero horizontal arrow works.",
+        "a11yChoices": "Drag the teal dot or change x and y. Make the orange arrow share the teal line, then press Check.",
+        "a11yReveal": "Non-zero horizontal arrows work: y equal to zero makes the matrix leave the arrow unchanged."
+      },
+      "config": {
+        "mode": "hunt-direction",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "initialVector": [
+          1,
+          1
+        ],
+        "dragGrid": {
+          "min": -3,
+          "max": 3,
+          "step": 1,
+          "snap": true,
+          "nonzeroForSuccess": true
+        },
+        "success": {
+          "type": "parallel-nonzero",
+          "includeOppositeDirection": true
+        },
+        "resultVisibility": "live",
+        "directionGuideVisibility": "live",
+        "inputMethods": [
+          "pointer-drag",
+          "keyboard-grid",
+          "coordinate-fields"
+        ]
+      },
+      "actions": [
+        {
+          "label": "Next",
+          "target": "calculate-output"
+        }
+      ]
+    },
+    {
+      "id": "calculate-output",
+      "kind": "custom",
+      "title": "Work it out before looking",
+      "body": [
+        "Use the matrix to work out the orange arrow's coordinates. It's hidden until you answer."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 4 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "A teal arrow ends at (2, 1). The orange arrow stays hidden until the calculation is correct, then appears at (3, 1).",
+        "submitLabel": "Check",
+        "retryLabel": "Try again",
+        "hintLabel": "Show a hint",
+        "hintText": "Top row: 1 × 2 + 1 × 1. Bottom row: 0 × 2 + 1 × 1.",
+        "question": "Where will the orange arrow end?",
+        "firstInputLabel": "Orange x",
+        "secondInputLabel": "Orange y",
+        "feedbackInvalid": "Enter a number in each box.",
+        "feedbackXOnly": "x is right. Use the bottom row to find y.",
+        "feedbackYOnly": "y is right. Use the top row to find x.",
+        "feedbackNeither": "Use one matrix row for x, then the other row for y.",
+        "feedbackCorrect": "Correct. The orange arrow ends at (3, 1).",
+        "revealExplanation": "Top row gives 3. Bottom row gives 1. The result is (3, 1), not a multiple of (2, 1). The arrow turns.",
+        "a11yChoices": "Enter the two coordinates of the hidden orange arrow. A hint is available after an incorrect attempt.",
+        "a11yReveal": "The input (2, 1) becomes (3, 1). The arrows lie on different lines."
+      },
+      "config": {
+        "mode": "calculate-output",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "vector": [
+          2,
+          1
+        ],
+        "correctVector": [
+          3,
+          1
+        ],
+        "tolerance": 0,
+        "acceptedNumberFormat": "signed-decimal",
+        "resultVisibility": "after-correct-commit",
+        "offerHintAfterAttempts": 0,
+        "workRows": [
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "actions": [
+        {
+          "label": "Next",
+          "target": "reverse-heading"
+        }
+      ]
+    },
+    {
+      "id": "reverse-heading",
+      "kind": "custom",
+      "title": "What if an arrow flips?",
+      "body": [
+        "The teal arrow points right. The orange arrow points left."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 5 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "The teal arrow ends at (1, 0), pointing right. The orange ends at (-2, 0), pointing left. Both lie on the same horizontal line.",
+        "submitLabel": "Check the number",
+        "retryLabel": "Try again",
+        "hintLabel": "Show a hint",
+        "hintText": "A minus sign reverses an arrow. Compare the two arrow lengths.",
+        "lineQuestion": "Are they on the same straight line?",
+        "choiceYes": "Yes",
+        "choiceNo": "No",
+        "scaleQuestion": "What number turns the teal arrow into the orange one?",
+        "scaleInputLabel": "Multiplier",
+        "feedbackInvalid": "Choose Yes or No.",
+        "feedbackWrongLine": "Follow the horizontal line through the origin. Does it reach both tips?",
+        "feedbackPositiveScale": "A positive number keeps the arrow pointing right. We need left.",
+        "feedbackWrongScale": "Compare the lengths, then check the sign.",
+        "feedbackCorrect": "Correct. Multiply the teal arrow by −2 to get the orange one.",
+        "revealExplanation": "An eigenvector stays on its original line when a matrix acts on it. The multiplier is its eigenvalue. Here the eigenvalue is −2: the arrow reverses and doubles.",
+        "a11yChoices": "First decide whether both arrows lie on one line. Then enter the multiplier.",
+        "a11yReveal": "The orange arrow is -2 times the teal arrow. The eigenvalue is negative.",
+        "lineSubmitLabel": "Check the line",
+        "lineCorrectText": "Yes. They point opposite ways, but share the same line.",
+        "feedbackInvalidMultiplier": "Enter a number.",
+        "phaseContinueLabel": "Continue"
+      },
+      "config": {
+        "mode": "classify-and-scale",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            -2,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "vector": [
+          1,
+          0
+        ],
+        "resultVector": [
+          -2,
+          0
+        ],
+        "lineAnswer": true,
+        "scaleAnswer": -2,
+        "tolerance": 0,
+        "resultVisibility": "initial",
+        "directionGuideVisibility": "initial",
+        "answerSequence": [
+          "same-line",
+          "scale"
+        ]
+      },
+      "actions": [
+        {
+          "label": "Next",
+          "target": "two-directions"
+        }
+      ]
+    },
+    {
+      "id": "two-directions",
+      "kind": "custom",
+      "title": "Which directions survive?",
+      "body": [
+        "Two of these four arrows stay on their original lines."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 6 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "Four teal arrows: A (1, 1), B (1, -1), C (2, 1) and D (1, 0). After success, A ends at (3, 3) and B ends at (1, -1).",
+        "submitLabel": "Check the numbers",
+        "retryLabel": "Try again",
+        "hintLabel": "Show a hint",
+        "hintText": "Try A. Multiply the matrix by (1, 1). Can one number turn the input into the result?",
+        "question": "Which two?",
+        "candidateA": "A — (1, 1)",
+        "candidateB": "B — (1, −1)",
+        "candidateC": "C — (2, 1)",
+        "candidateD": "D — (1, 0)",
+        "selectLabel": "Pick two arrows",
+        "multiplierLabel": "Multiplier",
+        "feedbackInvalid": "Choose exactly two arrows.",
+        "feedbackContainsC": "C turns. Its two coordinates would need different multipliers.",
+        "feedbackContainsD": "D turns. Its output no longer lies along the x-axis.",
+        "feedbackWrongScaleA": "A is a correct direction. Check how much it stretches.",
+        "feedbackWrongScaleB": "B is a correct direction. Check whether its length changes.",
+        "feedbackCorrect": "Yes. Both directions stay on their original lines.",
+        "revealExplanation": "Arrow A, (1, 1), becomes (3, 3): eigenvalue 3. Arrow B, (1, −1), stays (1, −1): eigenvalue 1. Eigenvectors can point diagonally too.",
+        "a11yChoices": "First choose two candidate arrows. Then enter their multipliers. Results stay hidden until both multipliers are right.",
+        "a11yReveal": "A stretches by 3. B stays unchanged with multiplier 1.",
+        "directionSubmitLabel": "Check the directions",
+        "directionCorrectText": "Both directions work. Now find their multipliers.",
+        "multiplierQuestion": "What number multiplies each arrow?",
+        "feedbackInvalidMultipliers": "Enter a number for both arrows.",
+        "phaseContinueLabel": "Continue"
+      },
+      "config": {
+        "mode": "two-directions",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "candidates": [
+          {
+            "id": "a",
+            "vector": [
+              1,
+              1
+            ],
+            "eigenvalue": 3
+          },
+          {
+            "id": "b",
+            "vector": [
+              1,
+              -1
+            ],
+            "eigenvalue": 1
+          },
+          {
+            "id": "c",
+            "vector": [
+              2,
+              1
+            ],
+            "eigenvalue": null
+          },
+          {
+            "id": "d",
+            "vector": [
+              1,
+              0
+            ],
+            "eigenvalue": null
+          }
+        ],
+        "requiredIds": [
+          "a",
+          "b"
+        ],
+        "tolerance": 0,
+        "resultVisibility": "after-correct-commit",
+        "offerHintAfterAttempts": 0,
+        "graphLayout": "four-small-multiples",
+        "labelCandidatesWithCopyKeys": true,
+        "answerSequence": [
+          "choose-directions",
+          "enter-multipliers"
+        ]
+      },
+      "actions": [
+        {
+          "label": "Final challenge",
+          "target": "exit-ticket"
+        }
+      ]
+    },
+    {
+      "id": "exit-ticket",
+      "kind": "custom",
+      "title": "Try it without the diagram",
+      "body": [
+        "Calculate first. The arrows will appear at the end."
+      ],
+      "component": "eigen-mission",
+      "version": 1,
+      "copy": {
+        "progressLabel": "Challenge 7 of 7",
+        "matrixLabel": "Matrix A",
+        "inputLabel": "Input arrow",
+        "outputLabel": "Result arrow",
+        "graphLabel": "Vector plane",
+        "graphDescription": "First diagram: (2, 0) becomes (6, 0) on the same horizontal line. Second: (1, 1) becomes (3, 2), which turns off the diagonal.",
+        "submitLabel": "Check",
+        "retryLabel": "Try again",
+        "hintLabel": "Show a hint",
+        "hintText": "Use one matrix row per output coordinate. To test direction, check whether one multiplier works for both coordinates.",
+        "partAQuestion": "Where does the matrix send (2, 0)?",
+        "partAFirstInputLabel": "Output x",
+        "partASecondInputLabel": "Output y",
+        "partAScaleQuestion": "What number multiplies the whole vector?",
+        "partAScaleInputLabel": "Multiplier",
+        "partBQuestion": "Does (1, 1) stay on its original line?",
+        "partBYes": "Yes",
+        "partBNo": "No",
+        "feedbackInvalid": "Enter an answer to continue.",
+        "feedbackWrongOutput": "Check the top row for x and the bottom row for y.",
+        "feedbackWrongScale": "Compare the output with the input. What one number takes you from one to the other?",
+        "feedbackWrongClassification": "Calculate the output of (1, 1). Does one multiplier work for x and y?",
+        "feedbackCorrect": "Correct. You worked it out without the picture.",
+        "revealExplanation": "(2, 0) becomes (6, 0), so its eigenvalue is 3. But (1, 1) becomes (3, 2): no single multiplier works for both coordinates.",
+        "a11yChoices": "First calculate the output for (2, 0). When that's correct, use the confirmed result to find the multiplier. Finally test (1, 1). Diagrams stay hidden until the end.",
+        "a11yReveal": "(2, 0) becomes (6, 0), eigenvalue 3. (1, 1) becomes (3, 2) and is not an eigenvector.",
+        "outputSubmitLabel": "Check the output",
+        "outputCorrectText": "The output is right. Now compare it with the input.",
+        "scaleSubmitLabel": "Check the multiplier",
+        "scaleCorrectText": "That's right. One last question.",
+        "phaseContinueLabel": "Continue",
+        "outputConfirmedText": "Input (2, 0) → output (6, 0)."
+      },
+      "config": {
+        "mode": "exit-ticket",
+        "display": {
+          "coordinateRange": [
+            -7,
+            7
+          ],
+          "tick": 1,
+          "sourceColor": "#087f8c",
+          "outputColor": "#b94e20",
+          "inputStyle": "solid",
+          "outputStyle": "dashed",
+          "commonOrigin": true,
+          "directionGuide": "full-line-through-origin",
+          "animationMs": 650,
+          "reducedMotion": "show-final-state-instantly"
+        },
+        "matrix": [
+          [
+            3,
+            0
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "questions": [
+          {
+            "id": "a",
+            "vector": [
+              2,
+              0
+            ],
+            "answerVector": [
+              6,
+              0
+            ],
+            "answerEigenvalue": 3
+          },
+          {
+            "id": "b",
+            "vector": [
+              1,
+              1
+            ],
+            "answerIsEigenvector": false,
+            "actualResult": [
+              3,
+              2
+            ]
+          }
+        ],
+        "tolerance": 0,
+        "resultVisibility": "after-correct-commit",
+        "graphVisibility": "after-correct-commit",
+        "offerHintAfterAttempts": 0,
+        "successRequires": [
+          "a-output",
+          "a-scale",
+          "b-classification"
+        ],
+        "answerSequence": [
+          "calculate-output",
+          "find-eigenvalue",
+          "classify-vector"
+        ]
+      },
+      "actions": [
+        {
+          "label": "Finish",
+          "target": "complete"
+        }
+      ]
+    },
+    {
+      "id": "complete",
+      "kind": "completion",
+      "title": "The key idea",
+      "body": [
+        "A non-zero vector is an eigenvector when the matrix leaves it on the same straight line.",
+        "The number that stretches, shrinks or reverses it is the eigenvalue: A v = λ v.",
+        "Want to test yourself again? Try without hints."
+      ],
+      "restart": {
+        "label": "Try again",
+        "target": "briefing"
+      }
+    }
+  ]
+}
