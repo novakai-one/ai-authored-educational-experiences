@@ -37,3 +37,5 @@ You own software architecture, React/TypeScript, state, rendering, animation imp
 Run `npm run check` and `BASE_REF=<authoring-commit> npm run guard:diff`. Include a working preview artifact or URL, commit and spec hashes, automated results, screenshots, supported/unsupported behavior and known deviations. Use `docs/REVIEW.md`.
 
 Do not edit approved content to make the implementation pass. Do not mark implementation fidelity or educational quality approved on ChatGPT's behalf. Make corrections in code and submit the same frozen content for author review again.
+
+Review the complete output against the requested outcome before handoff and record concrete findings and repairs in the implementation evidence. For publication, verify the deployed HTTPS page and its exact specification hash, not only a successful build or uploaded artifact. Confirm live repository settings before claiming branch protection is active. A connected GitHub account does not by itself establish that the author's session has file-writing tools; use the access prerequisite in `AUTHORING.md`.

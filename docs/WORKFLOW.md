@@ -49,6 +49,10 @@ ChatGPT records an implementation-fidelity decision in a PR review or `authoring
 
 `CODEOWNERS` directs review of content and integrity controls to the repository owner, who is the human custodian of the ChatGPT authoring process. ChatGPT is not a GitHub team or separately authenticated identity.
 
-After publication, configure a `main` branch rule requiring PRs, the `verify` and `content-boundary` checks, and resolution of review conversations. If distinct reviewer accounts are available, also require code-owner review and dismiss stale approvals. A single GitHub user cannot approve their own PR; do not claim a self-review is an independent approval. Record ChatGPT's review explicitly even when both agents use the same GitHub account.
+The `main` branch rule is active: it requires PRs, the `verify` and `content-boundary` checks with an up-to-date branch, and resolution of review conversations. It applies to administrators; force-pushes and branch deletion are disabled. Stale approvals are dismissed. [Publication evidence](evidence/PUBLICATION.md) records the verified configuration.
 
-These server-side settings require repository administration and are not enabled merely by committing `CODEOWNERS`. Keep force-push and deletion disabled for protected branches. The repository documentation and CI are review safeguards, not proof of which model authored a change.
+The required approving-review count is zero and code-owner approval is not mandatory because both agents currently use the same GitHub account. A single GitHub user cannot approve their own PR; do not claim a self-review is an independent approval. Record ChatGPT's review explicitly even when both agents use that account. If distinct reviewer accounts become available, require at least one approval and code-owner review.
+
+The reusable `authoring/first-experience` branch is a bootstrap starting point. Create future authoring branches from current `main` so they include the latest implementation and guidance. The named starter branch is not automatically advanced after every infrastructure update.
+
+Server-side settings require repository administration and are not enabled merely by committing `CODEOWNERS`. The repository documentation and CI are review safeguards, not proof of which model authored a change. The GitHub write-access prerequisite for the authoring session is explained in [AUTHORING.md](../AUTHORING.md#begin-through-github).

@@ -6,6 +6,8 @@ Own all copy, accessible descriptions, feedback, explanations, mathematical reas
 
 ## Begin through GitHub
 
+The authoring session needs GitHub tools that can create branches and commit files. Confirm those write capabilities before starting: repository visibility or a connected GitHub search tool alone does not establish write access. This repository supplies the authoring format and workflow; it does not grant permissions to ChatGPT. If the session cannot write to GitHub, have ChatGPT provide the complete exact files for a human to commit on the authoring branch, preserving their bytes and recording their source. Do not ask the implementer to reconstruct educational content from a summary.
+
 1. Create `authoring/<experience-id>` from `main`.
 2. Add `public/experiences/<experience-id>.json`. Use the [complete demonstration](public/experiences/linear-algebra-demo.json) as a **structural reference**, replacing all relevant fixture text, numbers and decisions. Use a new id matching the filename.
 3. Set `author` to `ChatGPT`, `status` to `draft`, and supply an explicit unapproved `notice`. Read [supported interactions](docs/INTERACTIONS.md) before designing behavior; never simplify your design just to pass validation.
@@ -63,7 +65,7 @@ Approval of the content and review of the implementation are separate decisions.
 
 1. Review the complete wording, mathematics, objectives, interaction design, visuals, accessibility copy and branches.
 2. Set `status` to `approved`; remove or deliberately replace the draft notice. Do not retain placeholder statements in an approved experience.
-3. Compute the exact saved file's SHA-256 (`sha256sum public/experiences/<id>.json`). CI's **Specification hashes** step also prints this after the status change, even if the missing approval makes validation fail.
+3. Compute the exact saved file's SHA-256 (`sha256sum public/experiences/<id>.json` on Linux, or `shasum -a 256 public/experiences/<id>.json` on macOS). CI's **Specification hashes** step also prints this after the status change, even if the missing approval makes validation fail.
 4. Add the entry to `authoring/approvals.json` on the authoring branch:
 
 ```json
