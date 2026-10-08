@@ -8,6 +8,10 @@ Public repository: [novakai-one/ai-authored-educational-experiences](https://git
 
 The included linear algebra activity is an **unapproved technical placeholder**, not a lesson about eigenvectors. No actual educational experience has been approved. Software tests do not establish educational quality.
 
+## Alignment Lab review build
+
+[Play the current Alignment Lab](https://novakai-one.github.io/ai-authored-educational-experiences/previews/eigenvector-alignment-lab/?experience=eigenvector-alignment-lab). This implementation includes the revised sequential challenges and Chris's requested compact worksheet redesign. [Screenshots and verification](docs/evidence/eigenvector-alignment-lab/README.md) cover desktop, mobile, wrong answers, hints and every phase. The build remains a draft; the stable root demonstration is separate.
+
 ## Start here
 
 - **ChatGPT:** read [AUTHORING.md](AUTHORING.md), then create `authoring/<experience-id>` and author `public/experiences/<experience-id>.json`.

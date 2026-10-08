@@ -17,13 +17,35 @@
 | Completion / restart | `kind: "completion"`, optional `restart` | Exact closing paragraphs and optional authored restart action |
 | Custom request | `kind: "custom"` | Valid only when exact component/version and strict copy/config contracts are registered |
 
-Every step must be reachable from `start` and have a graph path to a completion step. This does not prove a learner can or will finish, or that the sequence teaches well. Entry resets all local step state; self-transitions reset too. There is no persistence between steps or browser reloads. Answer edits clear feedback; vector changes clear both answers and feedback.
+Every step must be reachable from `start` and have a graph path to a completion step. This does not prove a learner can or will finish, or that the sequence teaches well. Entry resets all local step state; self-transitions reset too. The standard interactions do not persist answers between steps or browser reloads. Answer edits clear feedback; vector changes clear both answers and feedback. The Alignment Lab retains only attempt/hint/correctness summaries in memory across its run; restarting clears them, and nothing is transmitted.
+
+## Alignment Lab: `eigen-mission@1`
+
+Implements the seven-mode contract in `authoring/briefs/eigenvector-alignment-lab.md`. It is available for author review, not educationally approved.
+
+| Mode | Implemented interaction and reveal |
+| --- | --- |
+| `predict-output` | Four radio choices; committed correct prediction reveals the result and full line guide |
+| `classify-line` | Three choices with both vectors initially visible; explicit check required |
+| `hunt-direction` | Snapped pointer drag, arrow keys, and integer coordinate fields in [-3,3]; nonzero proportional output plus committed check required |
+| `calculate-output` | Signed decimal coordinates, authored tolerance, five feedback outcomes; hidden result until success |
+| `classify-and-scale` | Line classification → locked feedback → Continue → signed multiplier, including reversal |
+| `two-directions` | Four equal-scale candidate panels; select two → locked feedback → Continue → two multipliers; only A/B results reveal after full success |
+| `exit-ticket` | Output → Continue → multiplier with earned numeric recap → Continue → classification; no diagrams before all three commits succeed |
+
+All modes use strict mode-specific config and copy schemas plus cross-validation between the selected mode, copy keys and sole continuation. Supplied answers are independently verified against matrix computation; contradictory configurations fail visibly. Schemas are exported in `schema/eigen-mission.config.schema.json` and `schema/eigen-mission.copy.schema.json`. JSON Schema alone cannot perform the matrix checks; `npm run validate` is authoritative.
+
+User-directed presentation update, 2026-10-08: vector pairs render as two-row columns with square brackets throughout this lab, including sentences, choices and readouts. `AuthoredText` retains every original text character and supplies each vector's original expression as its accessible math label; CSS hides the tuple punctuation visually. This is an explicit user override of plain-text typesetting only. It does not change the JSON/brief, words, values, feedback or decisions. Matrix row arrays are not parsed as vector pairs. The existing symbolic expression A v = λ v is typeset in a mathematical face without changing its text.
+
+Results use 650 ms interpolation with immediate reduced-motion fallback. Source/result have solid/dashed encodings and exact coordinate readouts. The fixed [-7,7] square domain has unit grid spacing; numeric tick labels appear every two units. Before reveal, answer-bearing `graphDescription` is replaced with the exact authored `a11yChoices` for single-phase modes, or the current authored question for phased modes; `a11yReveal` is mounted only on success. Authored multiple-choice alternatives may contain correct coordinates. The revised hints and wrong-answer feedback do not supply full numerical solutions.
+
+Numeric answers accept finite signed decimals, including `.5` and `-2.0`, but not exponents or expressions. This is the Alignment Lab contract, distinct from the original vector-transform parser. Correct submissions lock controls; unsolved edits clear feedback. Hints follow the authored attempt threshold; stages 4, 6 and 7 offer them immediately. Stages 5–7 mount only the current phase prompt and controls. Intermediate success locks those controls and waits for the authored Continue; advancing clears previous feedback, inputs and visible hint, moves focus to the next prompt, and retains phase-specific attempt/hint summaries in memory. Intermediate feedback scrolls into view if necessary. Only full stage success reveals the explanation and stage action. No automatic advancement, scoring, external analytics or invented assessment messages.
 
 Colours are authored semantic choices. Implementers must report inaccessible authored colours and request an author decision; they must not quietly change a meaningful visual encoding. Solid/dashed styles and numeric readouts already distinguish the two vectors without colour alone.
 
 ## Requires new implementation
 
-Dragging vectors, hidden-result prediction, 3D graphics, editable matrices, arbitrary expressions, symbolic algebra, proof checking, branching on history/attempt count, stored progress, narration/audio, rich mathematical typesetting, custom layouts, timeline animation, gamification and adaptive sequencing are **not implemented**. Add a strict new contract with tests and author review. Unknown fields and interaction names fail validation rather than acting as ignored hints.
+Outside the specific Alignment Lab contract above, generic dragging/prediction activities, 3D graphics, editable matrices, arbitrary expressions, symbolic algebra, proof checking, branching on history/attempt count, stored progress, narration/audio, rich mathematical typesetting, arbitrary custom layouts, timeline animation, gamification and adaptive sequencing are **not implemented**. Add a strict new contract with tests and author review. Unknown fields and interaction names fail validation rather than acting as ignored hints.
 
 ## Custom components
 
@@ -49,8 +71,18 @@ An extension must provide:
 
 1. An exact version and strict `configSchema` rejecting unknown keys and invalid ranges. No coercions, defaults or transforms that change authored data.
 2. A strict `copySchema` requiring every learner-facing string, including accessibility labels. Rendering still uses the original exact `step.copy` values.
-3. A React component receiving `{ step, navigate }`. It can navigate only to the authored `actions` targets; it must render their authored labels. It may not fetch or generate communication, execute spec strings, or invent a fallback.
+3. A React component receiving `{ step, navigate }` and optionally an in-memory `recordAssessment` callback. It can navigate only to the authored `actions` targets; it must render their authored labels. It may not fetch or generate communication, execute spec strings, or invent a fallback. An optional `validateStep` hook enforces cross-field constraints beyond separate config/copy validation.
 4. Explicit states, feedback selection rules, mathematical contracts, animation/reduced-motion behavior and accessible interactions agreed with ChatGPT. Any ambiguity returns to the author.
 5. Contract and browser tests covering copy fidelity, reachable states, unsupported props, computation, animation and accessibility; evidence for ChatGPT's review.
 
 The framework renders the common step title/body. Components render only their additional content and controls. All extension code belongs under `src/components/` so the copy guard scans it. Registry interfaces are an escape hatch for focused components, not an arbitrary-code plugin platform.
+
+## User-directed worksheet redesign (2026-10-08)
+
+Chris rejected the earlier UI and authorized a final autonomous UI/UX pass. The layout now uses a shared mathematical worksheet, number-sized fields (38–53px for column coordinates and 72px for scalar answers), and explicit matrix × input = result notation. These operators organize the existing computation; no explanatory words or educational source files were changed. Result values still follow the reveal contract.
+
+Coordinate entry is stacked vertically inside square brackets; fields retain their exact authored accessible names and title labels. Hunt entries permit transient empty/sign drafts, update the diagram at valid integer coordinates, and normalize to the authored grid on blur. An incomplete draft cannot be submitted. Pointer/keyboard dragging also updates the field values.
+
+Stage 6 candidate diagrams are the checkbox targets themselves. After Continue, only A/B receive multiplier inputs, placed inside their own diagram panels. The duplicate selection list is removed. Hints close on a correct phase while their usage remains recorded. Feedback and the next action scroll into view when below the viewport. The final desktop reveal adds diagrams beside the existing answer column instead of moving that column.
+
+The title, prose, progress, diagrams, mathematical notation, answer fields and action now have one hierarchy. The authored draft notice sits below the activity, while its status remains visible in the header. This redesign follows the user's final UI direction; it does not claim educational acceptance or require another ChatGPT handoff.

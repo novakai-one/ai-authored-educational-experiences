@@ -1,0 +1,610 @@
+[
+  {
+    "filename": "desktop-01-predict-output-initial.png",
+    "stage": 1,
+    "phase": "predict-output",
+    "state": "initial",
+    "title": "What will the matrix do?",
+    "question": "Where will the orange arrow end?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-01-predict-output-wrong.png",
+    "stage": 1,
+    "phase": "predict-output",
+    "state": "wrong",
+    "title": "What will the matrix do?",
+    "question": "Where will the orange arrow end?",
+    "feedback": "The matrix changes x. This answer leaves it unchanged.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-01-predict-output-hint.png",
+    "stage": 1,
+    "phase": "predict-output",
+    "state": "hint",
+    "title": "What will the matrix do?",
+    "question": "Where will the orange arrow end?",
+    "feedback": "The matrix changes x. This answer leaves it unchanged.",
+    "hint": "For the new x, multiply 2 by the teal x coordinate. Keep y as it is.",
+    "results": []
+  },
+  {
+    "filename": "desktop-01-predict-output-final.png",
+    "stage": 1,
+    "phase": "predict-output",
+    "state": "final",
+    "title": "What will the matrix do?",
+    "question": "Where will the orange arrow end?",
+    "feedback": "Yes. x doubles from 2 to 4. y stays at 1.",
+    "hint": null,
+    "results": [
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-02-classify-line-initial.png",
+    "stage": 2,
+    "phase": "classify-line",
+    "state": "initial",
+    "title": "Did it turn?",
+    "question": "Is the orange arrow on that line?",
+    "feedback": "",
+    "hint": null,
+    "results": [
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-02-classify-line-wrong.png",
+    "stage": 2,
+    "phase": "classify-line",
+    "state": "wrong",
+    "title": "Did it turn?",
+    "question": "Is the orange arrow on that line?",
+    "feedback": "Look at the orange tip. It sits below the dotted line.",
+    "hint": null,
+    "results": [
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-02-classify-line-hint.png",
+    "stage": 2,
+    "phase": "classify-line",
+    "state": "hint",
+    "title": "Did it turn?",
+    "question": "Is the orange arrow on that line?",
+    "feedback": "Look at the orange tip. It sits below the dotted line.",
+    "hint": "Follow the dotted line past the teal arrow. Does it reach the orange tip?",
+    "results": [
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-02-classify-line-final.png",
+    "stage": 2,
+    "phase": "classify-line",
+    "state": "final",
+    "title": "Did it turn?",
+    "question": "Is the orange arrow on that line?",
+    "feedback": "Correct. The orange tip is off the dotted line.",
+    "hint": null,
+    "results": [
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-03-hunt-direction-initial.png",
+    "stage": 3,
+    "phase": "hunt-direction",
+    "state": "initial",
+    "title": "Make the arrows line up",
+    "question": "Can you get the orange arrow onto the dotted line?",
+    "feedback": "",
+    "hint": null,
+    "results": [
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-03-hunt-direction-wrong.png",
+    "stage": 3,
+    "phase": "hunt-direction",
+    "state": "wrong",
+    "title": "Make the arrows line up",
+    "question": "Can you get the orange arrow onto the dotted line?",
+    "feedback": "Not yet. The orange arrow is still off the dotted line.",
+    "hint": null,
+    "results": [
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-03-hunt-direction-hint.png",
+    "stage": 3,
+    "phase": "hunt-direction",
+    "state": "hint",
+    "title": "Make the arrows line up",
+    "question": "Can you get the orange arrow onto the dotted line?",
+    "feedback": "Not yet. The orange arrow is still off the dotted line.",
+    "hint": "Try making the teal y coordinate zero. What changes?",
+    "results": [
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-03-hunt-direction-zero.png",
+    "stage": 3,
+    "phase": "hunt-direction",
+    "state": "zero",
+    "title": "Make the arrows line up",
+    "question": "Can you get the orange arrow onto the dotted line?",
+    "feedback": "The dot is at the origin. Move it away from (0, 0) and try again.",
+    "hint": "Try making the teal y coordinate zero. What changes?",
+    "results": [
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-03-hunt-direction-final.png",
+    "stage": 3,
+    "phase": "hunt-direction",
+    "state": "final",
+    "title": "Make the arrows line up",
+    "question": "Can you get the orange arrow onto the dotted line?",
+    "feedback": "Yes. Both arrows are on the same line.",
+    "hint": null,
+    "results": [
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-04-calculate-output-initial.png",
+    "stage": 4,
+    "phase": "calculate-output",
+    "state": "initial",
+    "title": "Work it out before looking",
+    "question": "Where will the orange arrow end?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-04-calculate-output-wrong.png",
+    "stage": 4,
+    "phase": "calculate-output",
+    "state": "wrong",
+    "title": "Work it out before looking",
+    "question": "Where will the orange arrow end?",
+    "feedback": "Use one matrix row for x, then the other row for y.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-04-calculate-output-hint.png",
+    "stage": 4,
+    "phase": "calculate-output",
+    "state": "hint",
+    "title": "Work it out before looking",
+    "question": "Where will the orange arrow end?",
+    "feedback": "Use one matrix row for x, then the other row for y.",
+    "hint": "Top row: 1 × 2 + 1 × 1. Bottom row: 0 × 2 + 1 × 1.",
+    "results": []
+  },
+  {
+    "filename": "desktop-04-calculate-output-final.png",
+    "stage": 4,
+    "phase": "calculate-output",
+    "state": "final",
+    "title": "Work it out before looking",
+    "question": "Where will the orange arrow end?",
+    "feedback": "Correct. The orange arrow ends at (3, 1).",
+    "hint": null,
+    "results": [
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-same-line-initial.png",
+    "stage": 5,
+    "phase": "same-line",
+    "state": "initial",
+    "title": "What if an arrow flips?",
+    "question": "Are they on the same straight line?",
+    "feedback": "",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-same-line-wrong.png",
+    "stage": 5,
+    "phase": "same-line",
+    "state": "wrong",
+    "title": "What if an arrow flips?",
+    "question": "Are they on the same straight line?",
+    "feedback": "Follow the horizontal line through the origin. Does it reach both tips?",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-same-line-hint.png",
+    "stage": 5,
+    "phase": "same-line",
+    "state": "hint",
+    "title": "What if an arrow flips?",
+    "question": "Are they on the same straight line?",
+    "feedback": "Follow the horizontal line through the origin. Does it reach both tips?",
+    "hint": "A minus sign reverses an arrow. Compare the two arrow lengths.",
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-same-line-intermediate.png",
+    "stage": 5,
+    "phase": "same-line",
+    "state": "intermediate",
+    "title": "What if an arrow flips?",
+    "question": "Are they on the same straight line?",
+    "feedback": "Yes. They point opposite ways, but share the same line.",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-scale-initial.png",
+    "stage": 5,
+    "phase": "scale",
+    "state": "initial",
+    "title": "What if an arrow flips?",
+    "question": "What number turns the teal arrow into the orange one?",
+    "feedback": "",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-scale-wrong.png",
+    "stage": 5,
+    "phase": "scale",
+    "state": "wrong",
+    "title": "What if an arrow flips?",
+    "question": "What number turns the teal arrow into the orange one?",
+    "feedback": "A positive number keeps the arrow pointing right. We need left.",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-scale-hint.png",
+    "stage": 5,
+    "phase": "scale",
+    "state": "hint",
+    "title": "What if an arrow flips?",
+    "question": "What number turns the teal arrow into the orange one?",
+    "feedback": "A positive number keeps the arrow pointing right. We need left.",
+    "hint": "A minus sign reverses an arrow. Compare the two arrow lengths.",
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-05-scale-final.png",
+    "stage": 5,
+    "phase": "scale",
+    "state": "final",
+    "title": "What if an arrow flips?",
+    "question": "What number turns the teal arrow into the orange one?",
+    "feedback": "Correct. Multiply the teal arrow by −2 to get the orange one.",
+    "hint": null,
+    "results": [
+      [
+        -2,
+        0
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-06-choose-directions-initial.png",
+    "stage": 6,
+    "phase": "choose-directions",
+    "state": "initial",
+    "title": "Which directions survive?",
+    "question": "Which two?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-06-choose-directions-wrong.png",
+    "stage": 6,
+    "phase": "choose-directions",
+    "state": "wrong",
+    "title": "Which directions survive?",
+    "question": "Which two?",
+    "feedback": "C turns. Its two coordinates would need different multipliers.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-06-choose-directions-hint.png",
+    "stage": 6,
+    "phase": "choose-directions",
+    "state": "hint",
+    "title": "Which directions survive?",
+    "question": "Which two?",
+    "feedback": "C turns. Its two coordinates would need different multipliers.",
+    "hint": "Try A. Multiply the matrix by (1, 1). Can one number turn the input into the result?",
+    "results": []
+  },
+  {
+    "filename": "desktop-06-choose-directions-intermediate.png",
+    "stage": 6,
+    "phase": "choose-directions",
+    "state": "intermediate",
+    "title": "Which directions survive?",
+    "question": "Which two?",
+    "feedback": "Both directions work. Now find their multipliers.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-06-enter-multipliers-initial.png",
+    "stage": 6,
+    "phase": "enter-multipliers",
+    "state": "initial",
+    "title": "Which directions survive?",
+    "question": "What number multiplies each arrow?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-06-enter-multipliers-wrong.png",
+    "stage": 6,
+    "phase": "enter-multipliers",
+    "state": "wrong",
+    "title": "Which directions survive?",
+    "question": "What number multiplies each arrow?",
+    "feedback": "A is a correct direction. Check how much it stretches.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-06-enter-multipliers-hint.png",
+    "stage": 6,
+    "phase": "enter-multipliers",
+    "state": "hint",
+    "title": "Which directions survive?",
+    "question": "What number multiplies each arrow?",
+    "feedback": "A is a correct direction. Check how much it stretches.",
+    "hint": "Try A. Multiply the matrix by (1, 1). Can one number turn the input into the result?",
+    "results": []
+  },
+  {
+    "filename": "desktop-06-enter-multipliers-final.png",
+    "stage": 6,
+    "phase": "enter-multipliers",
+    "state": "final",
+    "title": "Which directions survive?",
+    "question": "What number multiplies each arrow?",
+    "feedback": "Yes. Both directions stay on their original lines.",
+    "hint": null,
+    "results": [
+      [
+        3,
+        3
+      ],
+      [
+        1,
+        -1
+      ]
+    ]
+  },
+  {
+    "filename": "desktop-07-calculate-output-initial.png",
+    "stage": 7,
+    "phase": "calculate-output",
+    "state": "initial",
+    "title": "Try it without the diagram",
+    "question": "Where does the matrix send (2, 0)?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-calculate-output-wrong.png",
+    "stage": 7,
+    "phase": "calculate-output",
+    "state": "wrong",
+    "title": "Try it without the diagram",
+    "question": "Where does the matrix send (2, 0)?",
+    "feedback": "Check the top row for x and the bottom row for y.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-calculate-output-hint.png",
+    "stage": 7,
+    "phase": "calculate-output",
+    "state": "hint",
+    "title": "Try it without the diagram",
+    "question": "Where does the matrix send (2, 0)?",
+    "feedback": "Check the top row for x and the bottom row for y.",
+    "hint": "Use one matrix row per output coordinate. To test direction, check whether one multiplier works for both coordinates.",
+    "results": []
+  },
+  {
+    "filename": "desktop-07-calculate-output-intermediate.png",
+    "stage": 7,
+    "phase": "calculate-output",
+    "state": "intermediate",
+    "title": "Try it without the diagram",
+    "question": "Where does the matrix send (2, 0)?",
+    "feedback": "The output is right. Now compare it with the input.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-find-eigenvalue-initial.png",
+    "stage": 7,
+    "phase": "find-eigenvalue",
+    "state": "initial",
+    "title": "Try it without the diagram",
+    "question": "What number multiplies the whole vector?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-find-eigenvalue-wrong.png",
+    "stage": 7,
+    "phase": "find-eigenvalue",
+    "state": "wrong",
+    "title": "Try it without the diagram",
+    "question": "What number multiplies the whole vector?",
+    "feedback": "Compare the output with the input. What one number takes you from one to the other?",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-find-eigenvalue-hint.png",
+    "stage": 7,
+    "phase": "find-eigenvalue",
+    "state": "hint",
+    "title": "Try it without the diagram",
+    "question": "What number multiplies the whole vector?",
+    "feedback": "Compare the output with the input. What one number takes you from one to the other?",
+    "hint": "Use one matrix row per output coordinate. To test direction, check whether one multiplier works for both coordinates.",
+    "results": []
+  },
+  {
+    "filename": "desktop-07-find-eigenvalue-intermediate.png",
+    "stage": 7,
+    "phase": "find-eigenvalue",
+    "state": "intermediate",
+    "title": "Try it without the diagram",
+    "question": "What number multiplies the whole vector?",
+    "feedback": "That's right. One last question.",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-classify-vector-initial.png",
+    "stage": 7,
+    "phase": "classify-vector",
+    "state": "initial",
+    "title": "Try it without the diagram",
+    "question": "Does (1, 1) stay on its original line?",
+    "feedback": "",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-classify-vector-wrong.png",
+    "stage": 7,
+    "phase": "classify-vector",
+    "state": "wrong",
+    "title": "Try it without the diagram",
+    "question": "Does (1, 1) stay on its original line?",
+    "feedback": "Calculate the output of (1, 1). Does one multiplier work for x and y?",
+    "hint": null,
+    "results": []
+  },
+  {
+    "filename": "desktop-07-classify-vector-hint.png",
+    "stage": 7,
+    "phase": "classify-vector",
+    "state": "hint",
+    "title": "Try it without the diagram",
+    "question": "Does (1, 1) stay on its original line?",
+    "feedback": "Calculate the output of (1, 1). Does one multiplier work for x and y?",
+    "hint": "Use one matrix row per output coordinate. To test direction, check whether one multiplier works for both coordinates.",
+    "results": []
+  },
+  {
+    "filename": "desktop-07-classify-vector-final.png",
+    "stage": 7,
+    "phase": "classify-vector",
+    "state": "final",
+    "title": "Try it without the diagram",
+    "question": "Does (1, 1) stay on its original line?",
+    "feedback": "Correct. You worked it out without the picture.",
+    "hint": null,
+    "results": [
+      [
+        6,
+        0
+      ],
+      [
+        3,
+        2
+      ]
+    ]
+  }
+]
