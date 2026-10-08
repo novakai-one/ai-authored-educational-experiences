@@ -21,8 +21,12 @@ export function checkCopy(source: string, file = 'component.tsx'): string[] {
     if (ts.isStringLiteralLike(node) && /[A-Za-z]/.test(node.text)) {
       const parent = node.parent;
       const attr = ts.isJsxAttribute(parent) ? parent.name.getText(ast) : undefined;
+      let ancestor: ts.Node | undefined = parent;
+      while (ancestor && !ts.isJsxAttribute(ancestor) && !ts.isStatement(ancestor)) ancestor = ancestor.parent;
+      const expressionAttr = ancestor && ts.isJsxAttribute(ancestor) ? ancestor.name.getText(ast) : undefined;
       const allowed =
         (attr && (technicalAttributes.has(attr) || attr.startsWith('data-'))) ||
+        (expressionAttr && technicalAttributes.has(expressionAttr)) ||
         ts.isImportDeclaration(parent) || ts.isExportDeclaration(parent) ||
         ts.isLiteralTypeNode(parent) || ts.isBinaryExpression(parent) ||
         ts.isCaseClause(parent) ||

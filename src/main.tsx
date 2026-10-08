@@ -5,6 +5,7 @@ import { Diagnostic, ErrorBoundary } from './diagnostics';
 import { loadExperience } from './spec/load';
 import type { Experience } from './spec/schema';
 import './style.css';
+import './mission.css';
 
 function Loader() {
   const [spec, setSpec] = useState<Experience>();

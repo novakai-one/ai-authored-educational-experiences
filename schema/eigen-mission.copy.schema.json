@@ -1,0 +1,851 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceC": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceD": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackC": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackD": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "question",
+        "choiceA",
+        "choiceB",
+        "choiceC",
+        "choiceD",
+        "feedbackA",
+        "feedbackB",
+        "feedbackC",
+        "feedbackD"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceC": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackC": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "question",
+        "choiceA",
+        "choiceB",
+        "choiceC",
+        "feedbackA",
+        "feedbackB",
+        "feedbackC"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dragLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "xCoordinateLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "yCoordinateLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackZero": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackTurned": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackCorrect": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "question",
+        "dragLabel",
+        "xCoordinateLabel",
+        "yCoordinateLabel",
+        "feedbackZero",
+        "feedbackTurned",
+        "feedbackCorrect"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "firstInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "secondInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackXOnly": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackYOnly": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackNeither": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackCorrect": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "question",
+        "firstInputLabel",
+        "secondInputLabel",
+        "feedbackInvalid",
+        "feedbackXOnly",
+        "feedbackYOnly",
+        "feedbackNeither",
+        "feedbackCorrect"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceYes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "choiceNo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scaleQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scaleInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongLine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackPositiveScale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongScale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackCorrect": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "lineQuestion",
+        "choiceYes",
+        "choiceNo",
+        "scaleQuestion",
+        "scaleInputLabel",
+        "feedbackInvalid",
+        "feedbackWrongLine",
+        "feedbackPositiveScale",
+        "feedbackWrongScale",
+        "feedbackCorrect"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidateA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidateB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidateC": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidateD": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selectLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "multiplierLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackContainsC": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackContainsD": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongScaleA": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongScaleB": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackCorrect": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "question",
+        "candidateA",
+        "candidateB",
+        "candidateC",
+        "candidateD",
+        "selectLabel",
+        "multiplierLabel",
+        "feedbackInvalid",
+        "feedbackContainsC",
+        "feedbackContainsD",
+        "feedbackWrongScaleA",
+        "feedbackWrongScaleB",
+        "feedbackCorrect"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "progressLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "graphDescription": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hintText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revealExplanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yChoices": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partAQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partAFirstInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partASecondInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partAScaleQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partAScaleInputLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partBQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partBYes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partBNo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongOutput": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongScale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackWrongClassification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackCorrect": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "progressLabel",
+        "matrixLabel",
+        "inputLabel",
+        "outputLabel",
+        "graphLabel",
+        "graphDescription",
+        "submitLabel",
+        "retryLabel",
+        "hintLabel",
+        "hintText",
+        "revealExplanation",
+        "a11yChoices",
+        "a11yReveal",
+        "partAQuestion",
+        "partAFirstInputLabel",
+        "partASecondInputLabel",
+        "partAScaleQuestion",
+        "partAScaleInputLabel",
+        "partBQuestion",
+        "partBYes",
+        "partBNo",
+        "feedbackInvalid",
+        "feedbackWrongOutput",
+        "feedbackWrongScale",
+        "feedbackWrongClassification",
+        "feedbackCorrect"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

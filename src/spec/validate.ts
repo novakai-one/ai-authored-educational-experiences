@@ -33,6 +33,8 @@ export function validateExperience(input: unknown): Experience {
           const result = schema.safeParse(step[key]);
           if (!result.success) issues.push(`${path}.${key}: ${result.error.message}`);
         }
+        try { extension.validateStep?.(step); }
+        catch (error) { issues.push(`${path}: ${error instanceof Error ? error.message : String(error)}`); }
       }
     }
     if (step.kind !== 'vector-transform') return;

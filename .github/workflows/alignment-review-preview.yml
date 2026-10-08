@@ -1,0 +1,66 @@
+name: Alignment Lab review preview
+on:
+  push:
+    branches: [implementation/eigenvector-alignment-lab]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref == 'refs/heads/implementation/eigenvector-alignment-lab'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: review
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: review/package-lock.json
+      - run: npm ci
+        working-directory: review
+      - run: npx playwright install --with-deps chromium
+        working-directory: review
+      - run: npm run check
+        working-directory: review
+      - run: npm run guard:diff
+        working-directory: review
+        env:
+          BASE_REF: 0beb0d8c7c1ecc4036b6300a029a12db08d1346b
+          HEAD_BRANCH: implementation/eigenvector-alignment-lab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alignment-lab-preview-${{ github.sha }}
+          path: review/dist/
+          retention-days: 90
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: stable
+      - run: npm ci && npm run build
+        working-directory: stable
+      - name: Add the isolated review path to the unchanged main build
+        run: |
+          mkdir -p stable/dist/previews/eigenvector-alignment-lab
+          cp -R review/dist/. stable/dist/previews/eigenvector-alignment-lab/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: stable/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}previews/eigenvector-alignment-lab/?experience=eigenvector-alignment-lab
+    steps:
+      - name: Deploy review build
+        id: deployment
+        uses: actions/deploy-pages@v4

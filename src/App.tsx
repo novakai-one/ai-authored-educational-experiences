@@ -3,20 +3,23 @@ import type { Experience } from './spec/schema';
 import { extensions } from './spec/extensions';
 import { StatusBanner } from './diagnostics';
 import { VectorActivity } from './components/VectorActivity';
+import type { MissionAssessment } from './engine/eigen';
 
 export function App({ spec }: { spec: Experience }) {
   const [current, setCurrent] = useState(spec.start);
   const [visit, setVisit] = useState(0);
+  const [assessments, setAssessments] = useState<Record<string, MissionAssessment>>({});
   const heading = useRef<HTMLHeadingElement>(null);
   const step = spec.steps.find(s => s.id === current)!;
   useEffect(() => { heading.current?.focus(); }, [current, visit]);
   function navigate(target: string) {
     if (!spec.steps.some(s => s.id === target)) throw new Error(`Unknown transition: ${target}`);
     setCurrent(target);
+    if (target === spec.start) setAssessments({});
     setVisit(n => n + 1);
   }
   const Custom = step.kind === 'custom' ? extensions[step.component].Component : undefined;
-  return <div className="shell">
+  return <div className="shell" data-experience={spec.id} data-assessments={JSON.stringify(assessments)}>
     <header className="masthead">
       <div><StatusBanner status={spec.status} /><h1 data-copy="title">{spec.title}</h1></div>
     </header>
@@ -29,7 +32,7 @@ export function App({ spec }: { spec: Experience }) {
       {step.kind === 'vector-transform' && <VectorActivity key={`${step.id}-${visit}`} step={step} navigate={navigate} />}
       {step.kind === 'message' && <button onClick={() => navigate(step.action.target)}>{step.action.label}</button>}
       {step.kind === 'completion' && step.restart && <button onClick={() => navigate(step.restart!.target)}>{step.restart.label}</button>}
-      {step.kind === 'custom' && Custom && <Custom key={`${step.id}-${visit}`} step={step} navigate={target => {
+      {step.kind === 'custom' && Custom && <Custom key={`${step.id}-${visit}`} step={step} recordAssessment={assessment => setAssessments(previous => ({ ...previous, [step.id]: assessment }))} navigate={target => {
         if (!step.actions.some(a => a.target === target)) throw new Error(`Undeclared custom transition: ${target}`);
         navigate(target);
       }} />}

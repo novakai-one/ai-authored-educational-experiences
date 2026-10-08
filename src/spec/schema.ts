@@ -52,7 +52,7 @@ export const vectorStepSchema = z.strictObject({
 // Validation requires an installed, exact-version contract. No fallback renderer.
 export const customStepSchema = z.strictObject({
   ...common, kind: z.literal('custom'), component: id, version: z.number().int().positive(),
-  copy: z.record(id, text), config: z.json(),
+  copy: z.record(z.string().regex(/^[a-z][A-Za-z0-9-]*$/), text), config: z.json(),
   actions: z.array(action),
 });
 
