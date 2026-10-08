@@ -68,7 +68,7 @@ export function MissionPlane({ source, result, visible, guide, display, copy, dr
         {Array.from({ length: 15 }, (_, i) => i - 7).map(n => <g key={n}>
           <line x1={project(n)} x2={project(n)} y1={28} y2={448} />
           <line y1={vertical(n)} y2={vertical(n)} x1={28} x2={448} />
-          {n % 2 === 0 && <><text x={project(n)} y={255}>{n}</text>{n !== 0 && <text x={225} y={vertical(n) + 4}>{n}</text>}</>}
+          {n % 2 === 0 && <><text className="mission-x-tick" x={project(n)} y={251}>{n}</text>{n !== 0 && <text className="mission-y-tick" x={225} y={vertical(n)}>{n}</text>}</>}
         </g>)}
       </g>
       <g className="mission-axes" aria-hidden="true"><line x1={28} x2={448} y1={238} y2={238} /><line y1={28} y2={448} x1={238} x2={238} /></g>

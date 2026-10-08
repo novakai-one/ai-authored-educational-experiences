@@ -150,6 +150,8 @@ test('exit ticket withholds future questions and diagrams, records each phase, a
 });
 
 test('all stages are accessible on mobile, honor reduced motion, and preserve authored copy', async ({ page }) => {
+  // This full journey performs fourteen accessibility scans alongside the evidence captures.
+  test.setTimeout(60_000);
   await page.setViewportSize({ width: 390, height: 844 }); await page.emulateMedia({ reducedMotion: 'reduce' }); await start(page);
   for (const s of missions) {
     await expect(page.getByRole('progressbar')).toHaveAttribute('aria-valuetext', s.copy.progressLabel);
@@ -167,17 +169,33 @@ test('all stages are accessible on mobile, honor reduced motion, and preserve au
 });
 
 test('650ms reveal starts before its final endpoint and ends exactly at the computed coordinates', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-10-08T08:00:00Z') });
   await page.emulateMedia({ reducedMotion: 'no-preference' }); await start(page); const s = missions[0];
+  await page.clock.pauseAt(new Date('2026-10-08T10:00:00Z'));
   await solve(page, s);
   const arrow = page.locator('[data-vector="1"]');
+  await expect(arrow).toHaveAttribute('data-x', '2');
+  await page.clock.runFor(320);
+  expect(Number(await arrow.getAttribute('data-x'))).toBeGreaterThan(2);
   expect(Number(await arrow.getAttribute('data-x'))).toBeLessThan(4);
-  await expect.poll(async () => Number(await arrow.getAttribute('data-x'))).toBe(4);
+  await page.clock.runFor(320);
+  expect(Number(await arrow.getAttribute('data-x'))).toBeLessThan(4);
+  await page.clock.runFor(32);
+  await expect(arrow).toHaveAttribute('data-x', '4');
   await expect(arrow).toHaveAttribute('data-y', '1');
+  await page.clock.resume();
   await enter(page, 6);
+  await page.clock.pauseAt(new Date('2026-10-08T12:00:00Z'));
   await solve(page, missions[6]);
   const finalArrow = page.locator('[data-vector="1"]').first();
+  await expect(finalArrow).toHaveAttribute('data-x', '2');
+  await page.clock.runFor(320);
+  expect(Number(await finalArrow.getAttribute('data-x'))).toBeGreaterThan(2);
   expect(Number(await finalArrow.getAttribute('data-x'))).toBeLessThan(6);
-  await expect.poll(async () => Number(await finalArrow.getAttribute('data-x'))).toBe(6);
+  await page.clock.runFor(320);
+  expect(Number(await finalArrow.getAttribute('data-x'))).toBeLessThan(6);
+  await page.clock.runFor(32);
+  await expect(finalArrow).toHaveAttribute('data-x', '6');
   await expect(finalArrow).toHaveAttribute('data-y', '0');
 });
 
