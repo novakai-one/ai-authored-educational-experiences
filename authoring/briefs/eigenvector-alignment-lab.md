@@ -1,64 +1,133 @@
-# Alignment Lab — implementation contract (ChatGPT authored)
+# Alignment Lab — educational and interaction contract (revised)
 
-**Specification:** `public/experiences/eigenvector-alignment-lab.json`  
-**Owner of ALL educational decisions and learner-facing copy:** ChatGPT  
-**Implementer:** Codex / Claude Code  
-**Status:** DRAFT; do not approve educational content or publish to main without review.
+**Educational author: ChatGPT.** Implementation owner: Codex / Claude Code.  
+Source of all learner-visible text: `public/experiences/eigenvector-alignment-lab.json`.  
+This contract supersedes the original brief for `eigen-mission@1`.
 
-## The product to build
+## What changed and why
 
-This is a compact, 7-challenge interactive discovery game, **not a slideshow plus sliders**. The learner sees a single focused challenge at a time. Each challenge requires an intentional answer or action; passive slider movement never marks a challenge complete. Present one clear objective, one dominant interactive area, then specific feedback. Give it an inviting, polished lab/game feel, not a long text document. Maintain a visible seven-stage progress indicator. The implementation must not invent words, praise, explanations, dialogue, scoring, or instructional hints.
+The first version was functionally sound but cognitively crowded. A screenshot of stage 3 showed three instruction paragraphs plus a redundant question, while later stages presented several decisions at once. This is **not** acceptable instructional design. The new authored specification has shorter title/body/question text and requires the complex challenges to present **only one decision at a time**.
 
-Use the exact strings in the JSON spec. Implement a **single custom component** named `eigen-mission@1` with strict discriminated config and copy schemas for all seven `mode` values: `predict-output`, `classify-line`, `hunt-direction`, `calculate-output`, `classify-and-scale`, `two-directions`, and `exit-ticket`.
+**Mandatory screen pattern:** one clear question → one learner action → contextual feedback → optional next action. Do not show instructions for future tasks until the learner reaches them. Show detailed explanation only after success. Stage number exists in `progressLabel`; do not add redundant numeric prefixes to visible titles.
 
-### Common interaction contract
+The app is a game about direction and matrix multiplication, **not** a technical fixture with paragraphs. Keep one dominant visual and one concise answer area. Do not pad the screen with teaching prose or additional UI descriptions that ChatGPT did not author.
 
-- The renderer displays the top-level step `title` and `body`. The extension displays the complete specified additional `copy` fields, with no extra educational words. It must not duplicate the title/body. Copy schema must reject missing or unknown keys, including extra feedback keys. Config schema must likewise reject missing or unknown keys. No generated explanations.
-- Each puzzle has local state `attemptCount`, `hintUsed`, `submitted`, `isCorrect`, `selectedAnswer`, and `reveal`, as applicable. Entering a step resets it completely. Wrong attempts leave controls available. Correct submissions lock in success and reveal the authored result and explanation.
-- Only after a correct submission render the sole authored `actions[0]` continuation button, and navigation uses that target. The progress indicator is authored via `progressLabel`; don't invent reward messages.
-- Clicking `hintLabel` reveals `hintText` without exposing the correct result arrow. `offerHintAfterAttempts: 1` means the hint button is available after at least one incorrect submitted attempt. Where this setting is absent, the hint can be requested immediately. Record hint usage for assessment, but don't publish or transmit analytics.
-- Check button `submitLabel` commits the current answer. A change of input clears old feedback and previous success only if still unsolved. Do not permit passing merely by changing slider values or selecting a choice without clicking submit. Never use native validation-message copy.
-- All selections need keyboard/accessible equivalents and authored accessible labels/descriptions. Use code to compute numbers but not prose. Provide a textual after-reveal mathematical trace only from authored `revealExplanation`, not runtime-composed sentences.
-- Source is solid teal; result is dashed orange. Equal units on x and y, common origin, endpoints and line guides mathematically exact. Visual domain [-7,7] and tick = 1; no clipping. Direction guide is an **infinite straight line through the origin**, NOT a ray (negative eigenvalues must count). Output-arrow animation = 650ms interpolation unless reduced-motion is requested; reduced-motion shows the exact final state immediately.
-- Do not play sound by default or add unscripted narration. Do not add XP, streaks, confetti or extra user-facing copy.
-- `correctId` and `correctVector` in the authored spec are independently checkable expected results; the implementation must calculate from `matrix` for validation and reject contradictory configs. Similarly verify each supplied `eigenvalue`, `resultVector`, `answerVector`, and `actualResult` against matrix operations.
+## Ownership boundaries
 
-### Seven modes and exact decisions
+- ChatGPT owns exact titles, body paragraphs, controls, choices, explanations, hints, feedback, accessible descriptions, phase transitions, mathematics, and visual purpose. Only ChatGPT edits `public/experiences/**` and `authoring/**`.
+- Implementer owns software, renderer, interactive state, mathematical evaluation, testing, animation, visual polish, and responsive behavior.
+- Renderer **must not invent, paraphrase, summarise, expand or change** any learner-facing language; even extra success messages or instructional tooltips require ChatGPT-authoring first.
+- Preserve all numerical values and current matrix mappings; the specification and its revised text are authoritative.
+- Display **every vector expression as a vertically stacked column with square brackets**, including prose, choices, feedback, readouts and screen-reader-appropriate names, according to the user's explicit notation requirement. Preserve wording and component values. Matrices remain 2×2 matrices.
 
-**1. `predict-output`:** Display source arrow (2,1), matrix, 4 choices. Hide all result-arrow/readout data before success. Radio or equivalent one-choice selection. Compare chosen id with `correctId`, use matching `feedbackA/B/C/D`. A correct committed choice reveals orange result, authored `revealExplanation` and continuation. Incorrect choice stays on puzzle and allows retry. Show `hintText` after wrong submission. Do not silently skip prediction.
+## Common mechanics
 
-**2. `classify-line`:** Display source/result arrows, full guide line and 3 choices. Compare with `correctId`. Display matching `feedbackA/B/C`. Correct choice reveals `revealExplanation` and continue.
+- Register `eigen-mission@1` with a strict per-mode `config` and `copy` schema. For new keys below, extend schema without weakening the unknown/missing-key checks. Fail visibly on unsupported config, rather than substituting a different activity.
+- Stage progress: seven distinct stages; one active stage at a time. Each stage's `title`, `body`, `question` (if any), `submitLabel`, `retryLabel`, `hintLabel`, `hintText`, feedback and follow-up explanation are direct authored text.
+- Clicking Check commits an answer. Correctness never follows from moving a control or selecting an item alone. Incorrect answers remain editable and show the exact relevant feedback. Reattempting clears stale feedback. After full stage success, reveal its authored explanation and the sole `actions[0]` navigation.
+- Answer/result coordinates remain concealed until full stage success for stages 1, 4, 6 and 7. Conceal in drawn vectors, numerical readouts, accessible names/descriptions, tooltips and any other UI. A multiple-choice option may necessarily contain a correct numerical alternative; wrong feedback/hints must not disclose the complete solution. Stage 5 deliberately shows both arrows from the outset.
+- Use source solid teal `#087f8c`, result dashed orange `#b94e20`, equal-scale Cartesian axes in [-7, 7], full straight-line direction guide through origin (not only a forward ray), snap-on-grid where specified, authored animation 650 ms, and immediate result fallback under reduced motion. Arrow tips must land at mathematically precise coordinates.
+- Hints are shown using the authored `hintText`, never generative teaching. Respect `offerHintAfterAttempts` and retain hint/attempt metrics locally. No tracking services or accounts.
+- Maintain keyboard and pointer interaction. The component must not introduce browser-native validation sentences or other implementation-written learner prose.
+- One visible task means **only the current phase's controls and prompt** appear. Do not show dormant future-phase fields, labels, captions or instructions.
 
-**3. `hunt-direction`:** Display live source and computed output with line guide. Input can be dragged with snapping OR adjusted using explicitly authored coordinate labels; keyboards must support the latter. Input coordinate values are -3..3 integers. The challenge begins at (1,1), which **does not** satisfy the condition. Success means pressing `submitLabel` with **nonzero** v satisfying Av = λv for some real scalar (positive, zero or negative); for this matrix [[1,1],[0,1]], exactly those inputs with y=0 and x≠0 satisfy. If input is zero, show `feedbackZero`; if vector turns, show `feedbackTurned`; if correct, show `feedbackCorrect`, then `revealExplanation`, then the action. Dragging to a correct heading by itself is not completion. All numeric readouts can be shown here because experimentation is deliberate.
+## Exact seven-stage behavior
 
-**4. `calculate-output`:** Matrix [[1,1],[0,1]], v=(2,1). Hide resulting orange arrow and exact result coordinates before success. Two numeric fields, checking with absolute tolerance 0. Determine outcomes in priority: invalid -> both correct -> x only -> y only -> neither. Use corresponding `feedbackInvalid`, `feedbackCorrect`, `feedbackXOnly`, `feedbackYOnly`, `feedbackNeither`. Correct result = (3,1). Reveal authored trace and arrow after success.
+### 1. Predict (`predict-output`)
 
-**5. `classify-and-scale`:** Display both vectors and line guide. Require BOTH a Yes/No classification AND one scalar input; do not advance after a partial answer. Correct is Same line and λ=-2. On error, prioritize invalid -> wrong line -> positive scale -> wrong scale. Use corresponding authored feedback. Correct shows `feedbackCorrect` and then `revealExplanation`. Crucially, treat opposite-facing vectors on the same infinite line as aligned, not as a failure.
+Matrix [[2,0],[0,1]]; teal source (2,1). Show only four authored possible endpoints; result remains hidden. Require choice + authored `submitLabel` commit. Wrong choices use their matching `feedbackB/C/D`. Correct A uses `feedbackA`, then reveal output (4,1), guide and `revealExplanation`. No early result readout.
 
-**6. `two-directions`:** Show matrix and four candidates on separate equal-scale small grid panels; hide all four transformed arrows/results until full correct answer. Learner selects **exactly two distinct candidates** and enters a λ number for each selected candidate. Both candidate identities A and B and associated λ values 3 and 1 must be correct to complete. Wrong-answer priority: invalid -> contains C -> contains D -> wrong λ for A -> wrong λ for B. Specific messages must come from those authored `feedback...` keys. A candidate may be chosen in either order. On success reveal A result (3,3), B result (1,-1), and authored explanation. User must be allowed to revise both selected directions and scalar values.
+### 2. Compare (`classify-line`)
 
-**7. `exit-ticket`:** No vector diagrams OR transformed readouts until all answers have been submitted correctly. Show matrix [[3,0],[0,2]]. Require exactly: A output coordinates (6,0), A eigenvalue 3, B "No" for whether (1,1) is an eigenvector. Every answer must be submitted in one committed check. Prioritize feedback: invalid -> wrong output -> wrong scale -> wrong classification. Correct reveals the diagrams, `feedbackCorrect`, `revealExplanation`, and continue. Record `attemptCount` and `hintUsed`, but do not claim that coached completion equals first-attempt independent mastery. No new message about those metrics without ChatGPT supplying the exact words.
+Both vectors and full dotted line initially visible. Ask the sole `question`, with three existing choices, and require submitted choice. Wrong uses authored feedback; B is correct. Explanation comes only after success.
 
-### UI and experience acceptance checks
+### 3. Explore (`hunt-direction`)
 
-1. **Real challenge:** At stages 1, 4, 6 and 7, the result vector is *not* visible before a correct commit, including legends, tooltips, ARIA strings, DOM text, coordinate readouts and graph labels. Internal JS data can contain the mathematical answer but must not leak it to the learner UI. After success, reveal is visible and correctly described.
-2. **Active learning:** Simply dragging controls and never pressing a submit button cannot advance any step. The first two puzzles establish the difference between stretched and turned; stage 3 is exploratory; stage 4 makes the learner calculate; stages 5–6 require conceptual transfer; stage 7 works without a diagram.
-3. **Mathematical correctness:** Independently unit-test the answer values and the special cases v=0, λ=0, opposite-direction outputs, vectors unchanged by A, and different multipliers in x/y.
-4. **Feedback clarity:** Browser-test every authored feedback branch, including invalid, x-only, y-only and incorrect outcomes. Correct actions appear only after success. No generated educational wording.
-5. **Visual fidelity:** Distinct teal and orange arrows, accurate arrowheads, arrow alignment, unobstructed labels, no clipped vectors, no hidden results mistakenly revealed. Screenshots at desktop and mobile, at least before and after answer reveal, for each mode.
-6. **Accessibility:** Functional keyboard controls, focus order, readable contrast, labelled numeric fields, no reliance on colour, screen-reader descriptions that respect hidden-result rule, `prefers-reduced-motion` support.
-7. **Assessment:** Final step usable without hints and attempts tracked in memory; external analytics, save-to-server and learner accounts are out of scope.
-8. **Don't reinterpret design:** If an ambiguous config remains, refer the exact field to ChatGPT instead of designing a different game. If interaction unsupported, fail loudly rather than showing a slider-based approximation.
+Start with source (1,1) under [[1,1],[0,1]]. Teal tip is draggable and accessible through authored coordinate fields (integers -3 through 3). Orange result and dotted line update live. The only initial learner instruction is the short authored body and `question`.
 
-### Implementation deliverables
+Upon `submitLabel`: (0,0) ⇒ `feedbackZero`; any turning vector ⇒ `feedbackTurned`; any nonzero vector with y=0 ⇒ `feedbackCorrect`, then `revealExplanation`. Setting y=0 does **not** automatically advance. Do not display the zero-vector caveat in the initial body; introduce only when relevant.
 
-- Add a strict `eigen-mission@1` extension to `src/spec/extensions.ts`, with renderer(s) in `src/components/`. Maintain the clean separation from content.
-- Build a preview for `/?experience=eigenvector-alignment-lab` and check it against the actual spec.
-- Run all repository checks, copy guard and authoring-content diff guard from the frozen authoring commit.
-- Submit `implementation/eigenvector-alignment-lab` as a PR **targeting `authoring/eigenvector-alignment-lab`**, not `main`. Include screen recordings/screenshots and state-by-state behavior evidence.
-- Treat `public/experiences/**` and `authoring/**` as read-only. Don't approve, modify, or replace the draft.
-- Never claim this proves educational effectiveness. ChatGPT will review the implementation and user testing will determine whether it helps learning.
+### 4. Calculate (`calculate-output`)
 
-### Scope discipline
+Matrix [[1,1],[0,1]], input (2,1), correct output (3,1). Keep orange vector hidden. Show the current short authored body, question and TWO coordinates. Submit evaluates invalid / x correct only / y correct only / neither / both correct, using exact authored feedback keys. Correct reveals arrow and explanation; never show result in graph description/readouts earlier.
 
-One polished lab with seven stages is sufficient. No login, backend, general-purpose visual programming engine, unrelated chapters, or framework rebuild. The current sample demo must continue to work. Prioritise the quality and clarity of these particular interactions over framework extensibility.
+### 5. Reverse (`classify-and-scale`) — **NEW progressive phases**
+
+The matrix stays [[-2,0],[0,1]], source (1,0), result (-2,0), both arrows and infinite direction guide visible. The `config.answerSequence` explicitly requires two ordered decisions: `["same-line","scale"]`.
+
+**Phase 1: same-line.**
+- Show only `lineQuestion`, `choiceYes`, `choiceNo`, and **`lineSubmitLabel`**. Do not show `scaleQuestion` or `scaleInputLabel` yet.
+- Missing choice ⇒ `feedbackInvalid`.
+- Wrong choice No ⇒ `feedbackWrongLine`, then retry.
+- Correct choice Yes ⇒ show `lineCorrectText` and authored **`phaseContinueLabel`** button; controls become locked.
+- Only clicking `phaseContinueLabel` moves to phase 2. No stage continuation action yet.
+
+**Phase 2: scale.**
+- Show only `scaleQuestion`, `scaleInputLabel`, and `submitLabel`, with relevant visible context (same matrix/diagram). Phase 1 inputs no longer appear.
+- Missing/non-numeric ⇒ **`feedbackInvalidMultiplier`**.
+- Positive number ⇒ `feedbackPositiveScale`; other incorrect number ⇒ `feedbackWrongScale`.
+- Correct λ=-2 ⇒ `feedbackCorrect`, `revealExplanation` and sole stage continuation.
+
+### 6. Discover two (`two-directions`) — **NEW progressive phases**
+
+Matrix [[2,1],[1,2]], four candidate vectors A=(1,1), B=(1,-1), C=(2,1), D=(1,0). The matrix and candidate source diagrams remain visible. Result diagrams/readouts stay concealed until **after both phases**. The `config.answerSequence` requires `["choose-directions","enter-multipliers"]`.
+
+**Phase 1: choose-directions.**
+- Show only `question`, `selectLabel`, candidate choices, and **`directionSubmitLabel`**. Do not render scalar/multiplier fields or `multiplierQuestion` yet.
+- Wrong count / duplicate selection ⇒ `feedbackInvalid`. Includes C ⇒ `feedbackContainsC`; otherwise includes D ⇒ `feedbackContainsD`.
+- Exactly A and B, any order ⇒ `directionCorrectText`, locked candidate selection and **`phaseContinueLabel`**.
+- Clicking Continue proceeds to phase 2, without revealing transformed arrows.
+
+**Phase 2: enter-multipliers.**
+- Show only selected A and B candidate labels, `multiplierQuestion`, two authored `multiplierLabel` fields and `submitLabel`. Hide unselected controls and do not require selecting candidates again.
+- Missing/non-numeric ⇒ **`feedbackInvalidMultipliers`**.
+- Wrong λ for A ⇒ `feedbackWrongScaleA`; else wrong λ for B ⇒ `feedbackWrongScaleB`.
+- λ_A=3 and λ_B=1 ⇒ `feedbackCorrect`, reveal A/B result arrows, `revealExplanation` and sole stage continuation.
+- Keep C/D output arrows hidden even after solution, as previously authored.
+
+### 7. Exit ticket (`exit-ticket`) — **NEW progressive phases**
+
+Matrix [[3,0],[0,2]]. No visual result arrow, diagram, output readout or answer-bearing accessible description before **the entire exit ticket** is solved. The `config.answerSequence` requires `["calculate-output","find-eigenvalue","classify-vector"]`.
+
+**Phase 1: calculate-output.**
+- Show `partAQuestion` about (2,0), the two `partAFirstInputLabel/partASecondInputLabel` controls, and **`outputSubmitLabel`**.
+- Missing/non-numeric ⇒ `feedbackInvalid`; otherwise wrong coordinates ⇒ `feedbackWrongOutput`.
+- Correct output (6,0) ⇒ show **`outputCorrectText`** + `phaseContinueLabel`; lock current inputs and wait for Continue.
+
+**Phase 2: find-eigenvalue.**
+- Show `partAScaleQuestion`, `partAScaleInputLabel` and **`scaleSubmitLabel`** only. Do not show Part B yet.
+- Missing/non-numeric ⇒ `feedbackInvalid`; incorrect λ ≠ 3 ⇒ `feedbackWrongScale`.
+- Correct λ=3 ⇒ `scaleCorrectText` + `phaseContinueLabel`; wait for Continue.
+
+**Phase 3: classify-vector.**
+- Show `partBQuestion` about (1,1), `partBYes`, `partBNo` and `submitLabel` only.
+- Missing choice ⇒ `feedbackInvalid`; Yes ⇒ `feedbackWrongClassification`; No ⇒ `feedbackCorrect`.
+- After success, reveal both diagrams, exact `revealExplanation`, and final stage continuation. The two actual outputs are (6,0) and (3,2).
+- Record per-phase attempt counts and hint usage in memory. A first-attempt/no-hint pass of each phase is different from coached completion; do not generate evaluative learner-facing copy.
+
+## Screen composition / quality bar
+
+Initial mobile/desktop stage 3 must present:
+- Title: **Make the arrows line up**
+- One body paragraph: **Move the teal dot. Watch the orange arrow.**
+- Question: **Can you get the orange arrow onto the dotted line?**
+- Controls: teal x and teal y, button **Check**, optional **Show a hint**, graph with dotted line and both arrows.
+- No extra instruction paragraphs or explanatory prose until feedback.
+
+At stages 5–7, manually check that the *next* question/inputs are not visible before the current phase succeeds and the user presses **Continue**. The intended experience is not three forms shown at once with CSS greyed out. The earlier phase's feedback should be visible and readable before moving on; then clear the previous phase's controls and feedback.
+
+The visuals should support the action rather than compete with it. Keep mobile graph sufficiently large to interpret arrow directions, avoid offscreen next-phase buttons, and keep column vectors legible inside body sentences, radio/checkbox labels, feedback and coordinate readouts. Use authored accessible math labels.
+
+## Acceptance tests and evidence required from Codex
+
+1. Rebase implementation branch onto the **latest** ChatGPT authoring branch and record the new frozen commit and spec SHA-256. The old snapshot is superseded; implementation agent must not edit protected content to conform to schema.
+2. Update `eigen-mission@1` strict config/copy schemas for the three new `answerSequence` variants and new exact copy keys; all existing modes continue to validate.
+3. Unit/browser tests: mathematical outputs, error feedback, reveal boundaries, pointer/keyboard hunting, hint thresholds, target transitions, correct animation with and without reduced motion, and full reset/restart.
+4. Add explicit **phase gating browser tests** for stage 5 (two phases), stage 6 (two) and stage 7 (three). Assert future inputs/prompts absent (not merely disabled); intermediate success displays authored feedback and a Continue button; no result leak before final success; re-entry resets to first phase.
+5. Snapshot/DOM comparison of all exact authored copy strings and column-vector notation. Hidden results must not leak through ARIA, SVG descriptions or DOM.
+6. For visual review, capture before, wrong-answer, hint, intermediate-success, and final reveal screens for each relevant stage on **desktop 1440px and mobile 390px**. Include actual rendered PNGs in the PR or another surface ChatGPT can inspect, and a stable interactive preview. A CI-green statement or text report alone is insufficient.
+7. Run `npm run check` and `BASE_REF=<new_authoring_commit> npm run guard:diff`. Implementer PR targets `authoring/eigenvector-alignment-lab`, never `main`. Record both implementation commit and authoring spec hash.
+
+### Educational review remains separate
+
+Passing automated checks and preserving strings do not demonstrate that the learner understood. A real learner must complete the game, identify confusing phrases, and later solve a fresh problem. Do not mark this experience educationally approved on ChatGPT's behalf.
