@@ -1,0 +1,12 @@
+# Human custodian of ChatGPT-authored specifications. This does not prove model identity.
+/public/experiences/ @novakai-one
+/authoring/ @novakai-one
+/src/ @novakai-one
+/src/spec/ @novakai-one
+/src/diagnostics.tsx @novakai-one
+/src/main.tsx @novakai-one
+/scripts/ @novakai-one
+/schema/ @novakai-one
+/.github/ @novakai-one
+/AGENTS.md @novakai-one
+/AUTHORING.md @novakai-one

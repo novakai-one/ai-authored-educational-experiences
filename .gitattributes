@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.png binary
+# Canonical content stays readable in normal line-oriented Git diffs.
+public/experiences/*.json text eol=lf

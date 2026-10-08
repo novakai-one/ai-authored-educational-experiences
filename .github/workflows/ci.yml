@@ -1,0 +1,54 @@
+name: Verify implementation
+on:
+  push:
+    branches: [main, 'authoring/**', 'implementation/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  content-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Protected content diff
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: npm run guard:diff
+      - run: npm run guard:copy
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Specification hashes
+        run: sha256sum public/experiences/*.json
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: implementation-evidence
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-dist
+          path: dist/
+          retention-days: 30

@@ -1,0 +1,98 @@
+{
+  "$schema": "../../schema/experience.schema.json",
+  "schemaVersion": 1,
+  "id": "linear-algebra-demo",
+  "status": "placeholder",
+  "author": "development-fixture",
+  "title": "A vector, transformed",
+  "locale": "en",
+  "notice": "Technical placeholder · This fixture demonstrates the authoring architecture. It is not an approved lesson or an introduction to eigenvectors.",
+  "objectives": [
+    "Demonstrate exact text rendering, interactive vectors, computed answer checks, authored feedback, and explicit progression."
+  ],
+  "successCriteria": [
+    "A reviewer can exercise every feedback outcome and observe the specified transitions without implementation-authored teaching."
+  ],
+  "start": "transform",
+  "steps": [
+    {
+      "id": "transform",
+      "kind": "vector-transform",
+      "title": "Try the interaction",
+      "body": [
+        "Move either coordinate slider. The solid teal arrow shows the input vector; the dashed orange arrow shows the result of the displayed matrix.",
+        "Enter the two coordinates of the orange arrow, then check the result. The wording you see here comes directly from this placeholder specification."
+      ],
+      "matrix": [[2, 0], [0, 1]],
+      "initialVector": [2, 1],
+      "interaction": {
+        "kind": "coordinate-sliders",
+        "min": -3,
+        "max": 3,
+        "step": 1,
+        "xLabel": "Input x",
+        "yLabel": "Input y"
+      },
+      "visual": {
+        "kind": "vector-plane",
+        "title": "Vector plane",
+        "description": "Two arrows share the origin. The solid arrow tracks the input coordinates. The dashed arrow animates to the matrix output when a slider changes. Exact current coordinates are also shown below the diagram.",
+        "domain": { "min": -7, "max": 7, "tick": 1 },
+        "sourceLabel": "Input vector",
+        "resultLabel": "Matrix output",
+        "sourceColor": "#087f8c",
+        "resultColor": "#b94e20",
+        "matrixLabel": "Transformation matrix",
+        "xAxisLabel": "x",
+        "yAxisLabel": "y",
+        "animation": {
+          "trigger": "on-input",
+          "durationMs": 450,
+          "easing": "ease-in-out",
+          "reducedMotion": "instant"
+        }
+      },
+      "answer": {
+        "kind": "transformed-vector",
+        "prompt": "Coordinates of the matrix output",
+        "xLabel": "Output x",
+        "yLabel": "Output y",
+        "submitLabel": "Check coordinates",
+        "tolerance": 0.001,
+        "feedback": {
+          "invalid": { "text": "This placeholder expects a finite number in each coordinate field. Enter both coordinates, then check again." },
+          "correct": {
+            "text": "Both coordinates match the computed matrix output. This is the authored success response for the technical demonstration.",
+            "action": { "label": "Continue", "target": "complete" }
+          },
+          "x-correct": { "text": "The x coordinate matches. The y coordinate does not match the current output. This response was selected from the authored x-only feedback." },
+          "y-correct": { "text": "The y coordinate matches. The x coordinate does not match the current output. This response was selected from the authored y-only feedback." },
+          "incorrect": {
+            "text": "Neither coordinate matches the current output. Try another entry or inspect the demonstration fixture.",
+            "action": { "label": "Inspect the fixture", "target": "fixture-note" }
+          }
+        }
+      }
+    },
+    {
+      "id": "fixture-note",
+      "kind": "message",
+      "title": "An authored branch",
+      "body": [
+        "This optional branch exists to demonstrate a transition chosen by the specification. Returning starts the interaction again at its authored initial vector, (2, 1).",
+        "For that initial vector, the displayed matrix produces (4, 1). These are fixture values for checking the software, not an approved teaching sequence."
+      ],
+      "action": { "label": "Return to the interaction", "target": "transform" }
+    },
+    {
+      "id": "complete",
+      "kind": "completion",
+      "title": "Technical demonstration complete",
+      "body": [
+        "The renderer displayed authored text, animated a computed vector, accepted an answer, selected authored feedback, and followed an authored transition.",
+        "Passing these checks demonstrates implementation behaviour. It does not establish educational quality. ChatGPT will author and review the actual learning experience."
+      ],
+      "restart": { "label": "Run the demonstration again", "target": "transform" }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "ai-authored-educational-experiences",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "npm run validate && npm run guard:copy && tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "validate": "tsx scripts/validate.ts",
+    "schema": "tsx scripts/schema.ts",
+    "schema:check": "tsx scripts/schema.ts --check",
+    "guard:copy": "tsx scripts/guard-copy.ts",
+    "guard:diff": "tsx scripts/guard-diff.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "npm run schema:check && npm run build && npm test && npm run test:e2e"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  }
+}
