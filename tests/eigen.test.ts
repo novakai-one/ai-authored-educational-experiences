@@ -46,6 +46,10 @@ describe('frozen authoring contract', () => {
     [0, (s: any) => { s.actions = []; }],
     [0, (s: any) => { s.copy = missions[1].copy; }],
     [0, (s: any) => { s.version = 2; }],
+    [4, (s: any) => { s.config.answerSequence.reverse(); }],
+    [5, (s: any) => { s.config.answerSequence.reverse(); }],
+    [6, (s: any) => { s.config.answerSequence.reverse(); }],
+    [6, (s: any) => { s.config.answerSequence.push('invented-phase'); }],
   ])('rejects contradictory or unsupported contract case %i', (index, mutate) => {
     const spec = structuredClone(raw); mutate(spec.steps[index + 1]);
     expect(() => validateExperience(spec)).toThrow();
@@ -81,6 +85,17 @@ describe('independent matrix reasoning', () => {
     for (const s of ['3', '+3.0', ' 3. ', '03']) expect(parseDecimal(s)).toBe(3);
     expect(parseDecimal('-.5')).toBe(-0.5);
   });
+  it('ignores future answers and validates only the current phase', () => {
+    const c = missions[6].config;
+    const answer = { ...initialAnswer(c), numbers: ['6', '0', ''], choice: '' };
+    expect(evaluateMission(c, answer, 0)).toEqual({ key: 'outputCorrectText', correct: true });
+    expect(evaluateMission(c, answer, 1).correct).toBe(false);
+    answer.numbers[2] = '3';
+    expect(evaluateMission(c, answer, 1)).toEqual({ key: 'scaleCorrectText', correct: true });
+    expect(evaluateMission(c, answer, 2).correct).toBe(false);
+    answer.choice = 'no';
+    expect(evaluateMission(c, answer, 2)).toEqual({ key: 'feedbackCorrect', correct: true });
+  });
   it('accepts two candidate choices in either order', () => {
     const c = missions[5].config;
     for (const selected of [['a', 'b'], ['b', 'a']]) expect(evaluateMission(c, { ...initialAnswer(c), selected, scales: { a: '3', b: '1' } }).correct).toBe(true);
@@ -89,6 +104,7 @@ describe('independent matrix reasoning', () => {
 
 it('copy guard permits conditional technical roles, while rejecting conditional educational copy', () => {
   expect(checkCopy('<svg role={drag ? "group" : "img"} />')).toEqual([]);
+  expect(checkCopy('<output data-testid={revealed ? "mission-result" : undefined} />')).toEqual([]);
   expect(checkCopy('<p>{ok ? "New teaching" : "New hint"}</p>').length).toBeGreaterThan(0);
   expect(checkCopy('<svg aria-label={ok ? "Answer revealed" : "Invented hint"} />').length).toBeGreaterThan(0);
 });

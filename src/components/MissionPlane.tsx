@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode, type PointerEvent } from 'react';
 import type { Vector } from '../spec/schema';
 import type { MissionConfig } from '../spec/eigenMission';
 import { AuthoredText } from './AuthoredText';
@@ -43,9 +43,9 @@ function Arrow({ vector, color, result }: { vector: Vector; color: string; resul
   </g>;
 }
 
-export function MissionPlane({ source, result, visible, guide, display, copy, drag, locked, caption, revealOnMount = false }: {
+export function MissionPlane({ source, result, visible, guide, display, copy, drag, locked, caption, revealOnMount = false, showReadouts = true, children }: {
   source: Vector; result: Vector; visible: boolean; guide: boolean; display: MissionConfig['display'];
-  copy: Record<string, string>; drag?: (v: Vector) => void; locked?: boolean; caption?: string; revealOnMount?: boolean;
+  copy: Record<string, string>; drag?: (v: Vector) => void; locked?: boolean; caption?: string; revealOnMount?: boolean; showReadouts?: boolean; children?: ReactNode;
 }) {
   const id = useId();
   const animated = useResult(result, source, visible, display.animationMs, revealOnMount);
@@ -61,7 +61,7 @@ export function MissionPlane({ source, result, visible, guide, display, copy, dr
     drag([snap((local.x - 238) / 30), snap((238 - local.y) / 30)]);
   }
   return <figure className="mission-plane">
-    <figcaption><AuthoredText text={caption ?? copy.graphLabel} /></figcaption>
+    <figcaption className={caption ? undefined : 'sr-only'}><AuthoredText text={caption ?? copy.graphLabel} /></figcaption>
     <svg viewBox="0 0 476 476" role={drag ? 'group' : 'img'} aria-labelledby={`${id}-title`} aria-describedby={`${id}-desc`}>
       <title id={`${id}-title`}>{copy.graphLabel}</title><desc id={`${id}-desc`}>{description}</desc>
       <g className="mission-grid" aria-hidden="true">
@@ -92,9 +92,10 @@ export function MissionPlane({ source, result, visible, guide, display, copy, dr
         <circle cx={project(source[0])} cy={vertical(source[1])} r={6} fill={display.sourceColor} className="drag-tip" />
       </g>}
     </svg>
-    <div className="mission-readouts">
+    {showReadouts && <div className="mission-readouts">
       <div><i className="mission-source-swatch" style={{ borderColor: display.sourceColor }} /><span>{copy.inputLabel}</span><output><AuthoredText text={`(${source.join(', ')})`} /></output></div>
       {visible && <div data-testid="mission-result"><i className="mission-result-swatch" style={{ borderColor: display.outputColor }} /><span>{copy.outputLabel}</span><output><AuthoredText text={`(${result.join(', ')})`} /></output></div>}
-    </div>
+    </div>}
+    {children}
   </figure>;
 }

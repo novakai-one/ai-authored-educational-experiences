@@ -34,7 +34,7 @@ const rawConfig = z.discriminatedUnion('mode', [
   }),
   z.strictObject({ ...common, mode: z.literal('calculate-output'), vector, correctVector: vector,
     tolerance: z.literal(0), acceptedNumberFormat: z.literal('signed-decimal'), resultVisibility: hidden,
-    offerHintAfterAttempts: z.literal(1), workRows: matrix,
+    offerHintAfterAttempts: z.literal(0), workRows: matrix,
   }),
   z.strictObject({ ...common, mode: z.literal('classify-and-scale'), vector, resultVector: vector,
     lineAnswer: z.literal(true), scaleAnswer: number.negative(), tolerance: z.literal(0),
@@ -46,14 +46,17 @@ const rawConfig = z.discriminatedUnion('mode', [
       candidate('a').extend({ eigenvalue: number }), candidate('b').extend({ eigenvalue: number }),
       candidate('c').extend({ eigenvalue: z.null() }), candidate('d').extend({ eigenvalue: z.null() }),
     ]), requiredIds: z.tuple([z.literal('a'), z.literal('b')]), tolerance: z.literal(0),
-    resultVisibility: hidden, offerHintAfterAttempts: z.literal(1),
+    resultVisibility: hidden, offerHintAfterAttempts: z.literal(0),
     graphLayout: z.literal('four-small-multiples'), labelCandidatesWithCopyKeys: z.literal(true),
+    answerSequence: z.tuple([z.literal('choose-directions'), z.literal('enter-multipliers')]),
   }),
   z.strictObject({ ...common, mode: z.literal('exit-ticket'), questions: z.tuple([
     z.strictObject({ id: z.literal('a'), vector, answerVector: vector, answerEigenvalue: number }),
     z.strictObject({ id: z.literal('b'), vector, answerIsEigenvector: z.boolean(), actualResult: vector }),
   ]), tolerance: z.literal(0), resultVisibility: hidden, graphVisibility: hidden,
-    offerHintAfterAttempts: z.literal(1), successRequires: z.tuple([z.literal('a-output'), z.literal('a-scale'), z.literal('b-classification')]),
+    offerHintAfterAttempts: z.literal(0),
+    answerSequence: z.tuple([z.literal('calculate-output'), z.literal('find-eigenvalue'), z.literal('classify-vector')]),
+    successRequires: z.tuple([z.literal('a-output'), z.literal('a-scale'), z.literal('b-classification')]),
   }),
 ]);
 export type MissionConfig = z.infer<typeof rawConfig>;
@@ -112,9 +115,9 @@ export const missionCopySchemas = {
   'classify-line': copy(['question', 'choiceA', 'choiceB', 'choiceC', 'feedbackA', 'feedbackB', 'feedbackC']),
   'hunt-direction': copy(['question', 'dragLabel', 'xCoordinateLabel', 'yCoordinateLabel', 'feedbackZero', 'feedbackTurned', 'feedbackCorrect']),
   'calculate-output': copy(['question', 'firstInputLabel', 'secondInputLabel', 'feedbackInvalid', 'feedbackXOnly', 'feedbackYOnly', 'feedbackNeither', 'feedbackCorrect']),
-  'classify-and-scale': copy(['lineQuestion', 'choiceYes', 'choiceNo', 'scaleQuestion', 'scaleInputLabel', 'feedbackInvalid', 'feedbackWrongLine', 'feedbackPositiveScale', 'feedbackWrongScale', 'feedbackCorrect']),
-  'two-directions': copy(['question', 'candidateA', 'candidateB', 'candidateC', 'candidateD', 'selectLabel', 'multiplierLabel', 'feedbackInvalid', 'feedbackContainsC', 'feedbackContainsD', 'feedbackWrongScaleA', 'feedbackWrongScaleB', 'feedbackCorrect']),
-  'exit-ticket': copy(['partAQuestion', 'partAFirstInputLabel', 'partASecondInputLabel', 'partAScaleQuestion', 'partAScaleInputLabel', 'partBQuestion', 'partBYes', 'partBNo', 'feedbackInvalid', 'feedbackWrongOutput', 'feedbackWrongScale', 'feedbackWrongClassification', 'feedbackCorrect']),
+  'classify-and-scale': copy(['lineSubmitLabel', 'lineCorrectText', 'feedbackInvalidMultiplier', 'phaseContinueLabel', 'lineQuestion', 'choiceYes', 'choiceNo', 'scaleQuestion', 'scaleInputLabel', 'feedbackInvalid', 'feedbackWrongLine', 'feedbackPositiveScale', 'feedbackWrongScale', 'feedbackCorrect']),
+  'two-directions': copy(['directionSubmitLabel', 'directionCorrectText', 'multiplierQuestion', 'feedbackInvalidMultipliers', 'phaseContinueLabel', 'question', 'candidateA', 'candidateB', 'candidateC', 'candidateD', 'selectLabel', 'multiplierLabel', 'feedbackInvalid', 'feedbackContainsC', 'feedbackContainsD', 'feedbackWrongScaleA', 'feedbackWrongScaleB', 'feedbackCorrect']),
+  'exit-ticket': copy(['outputSubmitLabel', 'outputCorrectText', 'scaleSubmitLabel', 'scaleCorrectText', 'phaseContinueLabel', 'outputConfirmedText', 'partAQuestion', 'partAFirstInputLabel', 'partASecondInputLabel', 'partAScaleQuestion', 'partAScaleInputLabel', 'partBQuestion', 'partBYes', 'partBNo', 'feedbackInvalid', 'feedbackWrongOutput', 'feedbackWrongScale', 'feedbackWrongClassification', 'feedbackCorrect']),
 };
 export const missionCopySchema = z.union(Object.values(missionCopySchemas));
 export function validateMissionStep(step: { config: unknown; copy: unknown; actions: unknown[] }) {

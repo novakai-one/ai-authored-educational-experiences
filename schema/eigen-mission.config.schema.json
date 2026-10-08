@@ -861,7 +861,7 @@
         },
         "offerHintAfterAttempts": {
           "type": "number",
-          "const": 1
+          "const": 0
         },
         "workRows": {
           "type": "array",
@@ -1382,7 +1382,7 @@
         },
         "offerHintAfterAttempts": {
           "type": "number",
-          "const": 1
+          "const": 0
         },
         "graphLayout": {
           "type": "string",
@@ -1391,6 +1391,22 @@
         "labelCandidatesWithCopyKeys": {
           "type": "boolean",
           "const": true
+        },
+        "answerSequence": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "choose-directions"
+            },
+            {
+              "type": "string",
+              "const": "enter-multipliers"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
         }
       },
       "required": [
@@ -1403,7 +1419,8 @@
         "resultVisibility",
         "offerHintAfterAttempts",
         "graphLayout",
-        "labelCandidatesWithCopyKeys"
+        "labelCandidatesWithCopyKeys",
+        "answerSequence"
       ],
       "additionalProperties": false
     },
@@ -1636,7 +1653,27 @@
         },
         "offerHintAfterAttempts": {
           "type": "number",
-          "const": 1
+          "const": 0
+        },
+        "answerSequence": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "string",
+              "const": "calculate-output"
+            },
+            {
+              "type": "string",
+              "const": "find-eigenvalue"
+            },
+            {
+              "type": "string",
+              "const": "classify-vector"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
         },
         "successRequires": {
           "type": "array",
@@ -1668,6 +1705,7 @@
         "resultVisibility",
         "graphVisibility",
         "offerHintAfterAttempts",
+        "answerSequence",
         "successRequires"
       ],
       "additionalProperties": false

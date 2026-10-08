@@ -50,3 +50,7 @@ Chris requires every vector expression in the Alignment Lab to appear as a verti
 
 Send me screenshots of the game for the bits you have played / signing off on and describe exactly what you see and what you are assessing - i need to understand what you are looking for and identify if there is anything we are seeing differently.
 Paste in the conversation here as you go with commentary as per above.
+
+## Latest user review supersedes earlier visual endorsements (2026-10-08)
+
+Chris rejected the existing UI/UX as cluttered and unpleasant: oversized text boxes and panels, scattered line of sight, and mathematical work that is harder to follow than on paper. He authorized one autonomous UI/UX redesign pass of at most two hours, without another round of ChatGPT approval requests. Use compact mathematical notation and number-sized fields, unite diagrams with their controls, and remove redundant visual containers. Preserve the authored educational source and sequential mechanics while exercising judgment over presentation. Earlier visual reviews are superseded by this feedback. Show actual played states in chat as work progresses; software tests alone do not establish that the redesign works for Chris.

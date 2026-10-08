@@ -25,14 +25,18 @@ export interface MissionAnswer {
   scales: Record<string, string>;
   vector: Vector;
 }
-export interface MissionAssessment { attemptCount: number; hintUsed: boolean; isCorrect: boolean }
+export interface PhaseAssessment { attemptCount: number; hintUsed: boolean; isCorrect: boolean }
+export interface MissionAssessment extends PhaseAssessment { phases: Record<string, PhaseAssessment> }
+export function missionPhases(config: MissionConfig): readonly string[] {
+  return 'answerSequence' in config ? config.answerSequence : [config.mode];
+}
 export const binaryAnswerValues = ['yes', 'no'] as const;
 export function initialAnswer(config: MissionConfig): MissionAnswer {
   return { choice: '', numbers: ['', '', ''], selected: [], scales: {}, vector: config.mode === 'hunt-direction' ? config.initialVector : [0, 0] };
 }
 
 // Keys identify authored responses; no learner-facing prose is generated here.
-export function evaluateMission(config: MissionConfig, answer: MissionAnswer): { key: string; correct: boolean } {
+export function evaluateMission(config: MissionConfig, answer: MissionAnswer, phase = 0): { key: string; correct: boolean } {
   const result = (key: string, correct = false) => ({ key, correct });
   const success = () => result('feedbackCorrect', true);
   const values = answer.numbers.map(parseDecimal);
@@ -51,15 +55,22 @@ export function evaluateMission(config: MissionConfig, answer: MissionAnswer): {
       return x && y ? success() : result(x ? 'feedbackXOnly' : y ? 'feedbackYOnly' : 'feedbackNeither');
     }
     case 'classify-and-scale':
-      if (!['yes', 'no'].includes(answer.choice) || values[0] === null) return result('feedbackInvalid');
-      if ((answer.choice === 'yes') !== config.lineAnswer) return result('feedbackWrongLine');
+      if (phase === 0) {
+        if (!['yes', 'no'].includes(answer.choice)) return result('feedbackInvalid');
+        return (answer.choice === 'yes') === config.lineAnswer ? result('lineCorrectText', true) : result('feedbackWrongLine');
+      }
+      if (values[0] === null) return result('feedbackInvalidMultiplier');
       if (values[0] > 0 && config.scaleAnswer < 0) return result('feedbackPositiveScale');
       return Math.abs(values[0] - config.scaleAnswer) <= config.tolerance ? success() : result('feedbackWrongScale');
     case 'two-directions': {
       const selected = answer.selected;
-      if (selected.length !== 2 || new Set(selected).size !== 2 || selected.some(id => !config.candidates.some(c => c.id === id) || parseDecimal(answer.scales[id] ?? '') === null)) return result('feedbackInvalid');
-      if (selected.includes('c')) return result('feedbackContainsC');
-      if (selected.includes('d')) return result('feedbackContainsD');
+      if (phase === 0) {
+        if (selected.length !== 2 || new Set(selected).size !== 2 || selected.some(id => !config.candidates.some(c => c.id === id))) return result('feedbackInvalid');
+        if (selected.includes('c')) return result('feedbackContainsC');
+        if (selected.includes('d')) return result('feedbackContainsD');
+        return result('directionCorrectText', true);
+      }
+      if (config.requiredIds.some(id => parseDecimal(answer.scales[id] ?? '') === null)) return result('feedbackInvalidMultipliers');
       for (const id of config.requiredIds) {
         const candidate = config.candidates.find(c => c.id === id)!;
         const scale = eigenvalue(config.matrix, candidate.vector)!;
@@ -68,10 +79,16 @@ export function evaluateMission(config: MissionConfig, answer: MissionAnswer): {
       return success();
     }
     case 'exit-ticket': {
-      if (values.some(n => n === null) || !['yes', 'no'].includes(answer.choice)) return result('feedbackInvalid');
       const [a, b] = config.questions;
-      if (!sameVector(values.slice(0, 2) as Vector, transform(config.matrix, a.vector), config.tolerance)) return result('feedbackWrongOutput');
-      if (Math.abs(values[2]! - eigenvalue(config.matrix, a.vector)!) > config.tolerance) return result('feedbackWrongScale');
+      if (phase === 0) {
+        if (values[0] === null || values[1] === null) return result('feedbackInvalid');
+        return sameVector(values.slice(0, 2) as Vector, transform(config.matrix, a.vector), config.tolerance) ? result('outputCorrectText', true) : result('feedbackWrongOutput');
+      }
+      if (phase === 1) {
+        if (values[2] === null) return result('feedbackInvalid');
+        return Math.abs(values[2] - eigenvalue(config.matrix, a.vector)!) <= config.tolerance ? result('scaleCorrectText', true) : result('feedbackWrongScale');
+      }
+      if (!['yes', 'no'].includes(answer.choice)) return result('feedbackInvalid');
       if ((answer.choice === 'yes') !== (eigenvalue(config.matrix, b.vector) !== null)) return result('feedbackWrongClassification');
       return success();
     }

@@ -33,8 +33,14 @@ jobs:
       - run: npm run guard:diff
         working-directory: review
         env:
-          BASE_REF: 0beb0d8c7c1ecc4036b6300a029a12db08d1346b
+          BASE_REF: 24d7375f5123fd77c2e4a24a707bbf1c5d7497d7
           HEAD_BRANCH: implementation/eigenvector-alignment-lab
+      - name: Record review build identity
+        working-directory: review
+        env:
+          IMPLEMENTATION_COMMIT: ${{ github.sha }}
+        run: |
+          node --input-type=module -e 'import {writeFileSync,readFileSync} from "node:fs"; import {createHash} from "node:crypto"; writeFileSync("dist/review-build.json", JSON.stringify({implementationCommit:process.env.IMPLEMENTATION_COMMIT,authoringCommit:"24d7375f5123fd77c2e4a24a707bbf1c5d7497d7",specSha256:createHash("sha256").update(readFileSync("public/experiences/eigenvector-alignment-lab.json")).digest("hex")},null,2))'
       - uses: actions/upload-artifact@v4
         with:
           name: alignment-lab-preview-${{ github.sha }}
@@ -46,10 +52,11 @@ jobs:
           path: stable
       - run: npm ci && npm run build
         working-directory: stable
-      - name: Add the isolated review path to the unchanged main build
-        run: |
-          mkdir -p stable/dist/previews/eigenvector-alignment-lab
-          cp -R review/dist/. stable/dist/previews/eigenvector-alignment-lab/
+      - name: Preserve prior commit previews and add this review build
+        working-directory: review
+        env:
+          IMPLEMENTATION_COMMIT: ${{ github.sha }}
+        run: npx tsx scripts/review-preview.ts ../stable/dist dist "$IMPLEMENTATION_COMMIT" https://novakai-one.github.io/ai-authored-educational-experiences/previews/eigenvector-alignment-lab/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -59,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}previews/eigenvector-alignment-lab/?experience=eigenvector-alignment-lab
+      url: ${{ steps.deployment.outputs.page_url }}previews/eigenvector-alignment-lab/${{ github.sha }}/?experience=eigenvector-alignment-lab
     steps:
       - name: Deploy review build
         id: deployment

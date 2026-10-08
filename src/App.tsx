@@ -24,7 +24,7 @@ export function App({ spec }: { spec: Experience }) {
     <header className="masthead">
       <div><StatusBanner status={spec.status} /><h1 data-copy="title">{spec.title}</h1></div>
     </header>
-    {spec.notice && <aside className="notice" data-copy="notice">{spec.notice}</aside>}
+    {spec.id !== 'eigenvector-alignment-lab' && spec.notice && <aside className="notice" data-copy="notice">{spec.notice}</aside>}
     <main>
       <section className="step-heading">
         <h2 ref={heading} tabIndex={-1} data-copy={`steps.${step.id}.title`}>{step.title}</h2>
@@ -38,5 +38,6 @@ export function App({ spec }: { spec: Experience }) {
         navigate(target);
       }} />}
     </main>
+    {spec.id === 'eigenvector-alignment-lab' && spec.notice && <aside className="notice" data-copy="notice">{spec.notice}</aside>}
   </div>;
 }

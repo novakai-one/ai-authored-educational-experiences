@@ -26,7 +26,7 @@ export function checkCopy(source: string, file = 'component.tsx'): string[] {
       const expressionAttr = ancestor && ts.isJsxAttribute(ancestor) ? ancestor.name.getText(ast) : undefined;
       const allowed =
         (attr && (technicalAttributes.has(attr) || attr.startsWith('data-'))) ||
-        (expressionAttr && technicalAttributes.has(expressionAttr)) ||
+        (expressionAttr && (technicalAttributes.has(expressionAttr) || expressionAttr.startsWith('data-'))) ||
         ts.isImportDeclaration(parent) || ts.isExportDeclaration(parent) ||
         ts.isLiteralTypeNode(parent) || ts.isBinaryExpression(parent) ||
         ts.isCaseClause(parent) ||

@@ -503,6 +503,22 @@
           "type": "string",
           "minLength": 1
         },
+        "lineSubmitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lineCorrectText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalidMultiplier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phaseContinueLabel": {
+          "type": "string",
+          "minLength": 1
+        },
         "lineQuestion": {
           "type": "string",
           "minLength": 1
@@ -558,6 +574,10 @@
         "revealExplanation",
         "a11yChoices",
         "a11yReveal",
+        "lineSubmitLabel",
+        "lineCorrectText",
+        "feedbackInvalidMultiplier",
+        "phaseContinueLabel",
         "lineQuestion",
         "choiceYes",
         "choiceNo",
@@ -623,6 +643,26 @@
           "minLength": 1
         },
         "a11yReveal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "directionSubmitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "directionCorrectText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "multiplierQuestion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feedbackInvalidMultipliers": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phaseContinueLabel": {
           "type": "string",
           "minLength": 1
         },
@@ -693,6 +733,11 @@
         "revealExplanation",
         "a11yChoices",
         "a11yReveal",
+        "directionSubmitLabel",
+        "directionCorrectText",
+        "multiplierQuestion",
+        "feedbackInvalidMultipliers",
+        "phaseContinueLabel",
         "question",
         "candidateA",
         "candidateB",
@@ -764,6 +809,30 @@
           "type": "string",
           "minLength": 1
         },
+        "outputSubmitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputCorrectText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scaleSubmitLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scaleCorrectText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phaseContinueLabel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputConfirmedText": {
+          "type": "string",
+          "minLength": 1
+        },
         "partAQuestion": {
           "type": "string",
           "minLength": 1
@@ -831,6 +900,12 @@
         "revealExplanation",
         "a11yChoices",
         "a11yReveal",
+        "outputSubmitLabel",
+        "outputCorrectText",
+        "scaleSubmitLabel",
+        "scaleCorrectText",
+        "phaseContinueLabel",
+        "outputConfirmedText",
         "partAQuestion",
         "partAFirstInputLabel",
         "partASecondInputLabel",

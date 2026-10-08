@@ -1,83 +1,86 @@
-# Alignment Lab implementation evidence
+# Alignment Lab — sequential challenges and final UI redesign
 
-Implements the seven challenges authored in PR #2. This is a review build, not an educational approval. The implementation PR targets `authoring/eigenvector-alignment-lab`; it must not merge directly to `main`.
+Chris rejected the earlier UI as cluttered, oversized and harder to follow than paper. He authorized this final autonomous UI/UX pass and ended the back-and-forth authoring loop. **Earlier screenshots and visual endorsements are superseded.** The new interface uses a compact mathematical worksheet, column-vector entry, directly selectable candidate diagrams, and one current task at a time.
 
-**Latest user feedback, 2026-10-08:** Chris requires vectors stacked vertically everywhere, explicitly including authored sentences and choices. The revised screenshots and renderer use column vectors with square brackets. This overrides the original plain-text presentation constraint for vector notation only; all source content bytes, words, component values and accessible expression labels are preserved. Earlier tuple-format screenshots are superseded.
+[Play the latest build](https://novakai-one.github.io/ai-authored-educational-experiences/previews/eigenvector-alignment-lab/?experience=eigenvector-alignment-lab). [PR #3](https://github.com/novakai-one/ai-authored-educational-experiences/pull/3) records the exact implementation SHA, fixed preview URL, deployment run and live verification. The PR targets `authoring/eigenvector-alignment-lab`; nothing was merged into `main`. The authored draft status remains unchanged.
 
-## Frozen content
+## Frozen source
 
-- Authoring commit: `0beb0d8c7c1ecc4036b6300a029a12db08d1346b`.
-- Implementation branch: `implementation/eigenvector-alignment-lab`, created directly from that commit. The implementation PR records its exact reviewed head SHA and deployment run.
-- Specification: `public/experiences/eigenvector-alignment-lab.json`.
-- Specification SHA-256: `5a16c1a48cf1e9bf4f89e697216e74e0309b8f5466c33536763144f251e5158c`.
-- Contract: `authoring/briefs/eigenvector-alignment-lab.md`.
-- Contract SHA-256: `a36318e9c80e8dd0e4ba01cbc90aa92bbc1f957aa02a3631cb8e52b31878177a`.
-- Protected files under `authoring/**` and `public/experiences/**` are unchanged, including approval/status records. The draft remains unapproved.
+- Authoring commit: `24d7375f5123fd77c2e4a24a707bbf1c5d7497d7`.
+- The implementation branch was rebased from the superseded `0beb0d8…` baseline onto this authoring commit.
+- Spec: `public/experiences/eigenvector-alignment-lab.json`.
+- Spec SHA-256: `58d8443f72ccc5c25a66718442e4049e1890e5b36e702aaa545e7208c2147281`.
+- Brief SHA-256: `e3b37799233c8aa5f8a7fed0582ed8d4199575f4fb789f77f13aab306940257d`.
+- `public/experiences/**` and `authoring/**` remain byte-identical to that commit. No wording, values, answers, approval records or author review decisions were edited.
 
-## Open the experience
+## What changed
 
-[Hosted review preview](https://novakai-one.github.io/ai-authored-educational-experiences/previews/eigenvector-alignment-lab/?experience=eigenvector-alignment-lab).
+1. **The calculation is one expression.** Matrix × input = result appears together. Coordinate fields occupy the two entries of a column vector, rather than stretching across the page. Scalar fields are 72px wide; coordinate fields are 38–53px wide depending on viewport.
+2. **One shared workspace replaces separate console cards.** The active question, calculation and action stay close together. The draft notice moved below the activity; the header still shows draft status. Typography separates prose from conventional mathematical notation.
+3. **Choose the diagram itself.** Stage 6 has four directly selectable candidate panels, without a duplicate checkbox list elsewhere. In phase 2, A/B multiplier fields sit beneath their own diagrams. C/D have no answer controls and never reveal transformed arrows.
+4. **Complex challenges are sequential.** Stage 5 has line/scale phases, stage 6 has selection/multiplier phases, and stage 7 has output/multiplier/classification phases. Future prompts and controls are absent from the DOM. Correct intermediate answers lock and wait for the authored Continue button. Previous controls/feedback clear on continuation; focus moves to the next question.
+5. **Hints and results have explicit boundaries.** Stages 4, 6 and 7 offer hints immediately. Hints close after a correct phase but remain recorded in that phase's metrics. Output diagrams and numerical readouts stay hidden until permitted. Stage 7 shows only the authored earned-result recap in phase 2, then reveals both diagrams after full success.
+6. **Typing and continuation work naturally.** The hunt accepts transient empty/sign drafts so negative numbers can be typed normally. Only valid integer grid coordinates update the diagram; blur normalizes to the authored range. An incomplete draft cannot be submitted. Feedback and the next action scroll into view when needed. The final desktop reveal keeps the answer column in place.
 
-The `Alignment Lab review preview` GitHub workflow runs only for this implementation branch. It publishes the draft under the isolated `/previews/eigenvector-alignment-lab/` path, alongside a fresh build of the existing `main` source at the root. It uploads `alignment-lab-preview-<implementation SHA>` as a downloadable artifact retained for 90 days. It does not merge or alter main source. The Pages environment permits the exact implementation branch in addition to main. A later root-only deployment may remove the temporary review URL; the commit and downloadable artifact remain the reproducible review reference.
+Every existing numerical vector expression still renders vertically with square brackets, including prose, choices, feedback, captions and readouts. Original expression characters and accessible math names are preserved. The existing symbolic expression `A v = λ v` receives mathematical typography without changing its text. New ×, = and ? notation organizes the already-authored computation; no teaching sentences were added.
 
-For local review: `npm ci`, `npm run build`, `npm run preview`, then open `http://localhost:4173/?experience=eigenvector-alignment-lab`. For a downloaded static artifact, serve its extracted directory over HTTP (for example `python3 -m http.server 4173`) and use the same query. Opening `index.html` directly with `file://` is unsupported.
+## Verification
 
-## Validation and observed behavior
+Final local `npm run check` passed: schema regeneration check, both source validations, copy guard, TypeScript, production build, **75 unit tests and 20 headless Chromium browser tests**. This includes all seven original-demo browser tests. `BASE_REF=24d7375f5123fd77c2e4a24a707bbf1c5d7497d7 npm run guard:diff` passes; the protected-file diff is empty.
 
-`npm run check` passed locally after the final animation repair: generated-schema checks, both experience validations, renderer copy guard, TypeScript, production build, **69 unit tests and 18 headless Chromium browser tests**. The original demo's seven browser tests still pass. The PR checks provide the independent Linux CI result. Protected-content verification uses `BASE_REF=0beb0d8c7c1ecc4036b6300a029a12db08d1346b npm run guard:diff`.
+Coverage includes all authored feedback branches; independent matrix results; signed-decimal parsing; invalid input; zero-vector rejection; all 49 hunt grid points; actual snapped pointer drag and keyboard movement; ordinary negative-number typing; clicking a diagram to select it; correct phase order and locking; absence of future prompts/fields; no premature SVG/readout/description reveal; earned recap timing; per-phase attempts/hints; full restart; and visible failure on invalid specifications.
 
-| Stage | Tested decisions and reveal boundary |
-| --- | --- |
-| 1 — Predict | All four feedback branches; selection alone cannot advance; hint threshold; no result SVG/readout/answer-bearing description until correct submit |
-| 2 — Classify | All three feedback branches; both vectors and full line visible initially; correct commit required |
-| 3 — Hunt | All 49 input grid points checked mathematically; actual pointer drag, arrow keys and fields; zero rejected; movement alone cannot complete; committed nonzero horizontal input succeeds |
-| 4 — Calculate | Invalid, x-only, y-only, neither and correct; signed-decimal parsing; result/description hidden until both coordinates are correct |
-| 5 — Reverse | Invalid, wrong line, positive scalar, wrong scalar and correct in specified priority; both decisions required; negative eigenvalue accepted |
-| 6 — Two directions | Invalid selection/scalars, C, D, wrong A scalar, wrong B scalar and correct; A/B can be chosen in either order; only A/B result arrows appear after full success |
-| 7 — Exit | Invalid, wrong output, wrong scalar, wrong classification and correct; no diagrams before whole-answer success; first-attempt/no-hint and coached completion are distinguishable in memory |
+Browser layout checks cover 320, 390, 740, 800 and 1280px; screenshot evidence uses desktop 1440×1000 and mobile 390×844. Coordinate fields remain vertically stacked and number-sized. There is no horizontal overflow. Axe reported no violations in the checked initial, intermediate and final states. 650ms reveals end at the independently computed coordinates; reduced motion reveals immediately. Intermediate and final continuation buttons are verified in the viewport after feedback. These checks do not establish learner understanding or replace manual assistive-technology testing.
 
-Browser checks cover all authored feedback branches, exact body/feedback strings, input-edit feedback clearing, locked success, continuation gating, restart, unsupported schema failure, and no horizontal overflow at 390 px. Axe reports no violations before and after each of the seven mobile stages. Headless checks exercise 650 ms interpolated reveals both in an existing diagram and in the newly mounted final diagrams; reduced motion is exercised throughout. These checks are not a substitute for manual assistive-technology testing or learner evaluation.
+The copy guard additionally permits conditional technical `data-*` identifiers, consistent with its existing literal/template handling. Prose and accessible labels are still checked; regression tests reject unauthored conditional teaching. Strict config/copy schemas require every revised phase key and reject missing, unknown, reordered or contradictory data.
 
-## Screenshots
+## Whole-output review: concrete findings and repairs
 
-These 28 full-page PNGs were captured from the **production build** after the final code repair. Desktop viewport: 1440 × 1000; mobile: 390 × 844. Each after-state waits for exact final arrow endpoints. The hunt solution shown is (2,0). Screenshots show a successful run without hints; error states are exercised by browser tests.
+- The original side-by-side coordinate boxes separated a vector into two wide form fields. The new screenshots show both coordinates in the correct vertical order inside one pair of brackets, adjacent to the matrix. Browser geometry checks verify that placement across five widths.
+- Stage 6 previously repeated candidates in diagrams and a separate control list. The new initial screenshot has four clickable diagrams; the multiplier screenshot associates each field directly with A or B. Clicking the plotted area, not just the checkbox, was exercised.
+- Intermediate success used to leave hints competing with feedback. The final stage 5 mobile screenshot shows only the locked Yes/No decision, success text and Continue. The multiplier question is not present yet.
+- A blank or minus sign in the hunt's old numeric control was rejected too early. A browser test now clears x, types `-2` naturally, sets y to zero, and successfully commits the corresponding nonzero direction.
+- The final desktop reveal originally moved the answer column to make room for diagrams. The final screenshot keeps the decision/feedback on the left and introduces the two diagrams on the right. On mobile, automatic feedback scrolling keeps Finish reachable.
+- A scaled contact-sheet thumbnail made the hunt's completed coordinate difficult to read. Inspection of the actual full-size PNG confirmed input/output (2,0), coincident arrows on the horizontal line, and the authored success explanation. Contact sheets were used for composition, with full-resolution inspection for mathematical details.
+- The first screenshots still duplicated source readouts beneath every candidate. These are now removed where the candidate caption already supplies the vector; A/B regain source/result readouts on reveal. The source/result encodings remain solid/dashed teal/orange, with matching semantic swatches.
 
-| Challenge | Desktop before | Desktop after | Mobile before | Mobile after |
-| --- | --- | --- | --- | --- |
-| 1 | [Before](screenshots/desktop-01-before.png) | [After](screenshots/desktop-01-after.png) | [Before](screenshots/mobile-01-before.png) | [After](screenshots/mobile-01-after.png) |
-| 2 | [Before](screenshots/desktop-02-before.png) | [After](screenshots/desktop-02-after.png) | [Before](screenshots/mobile-02-before.png) | [After](screenshots/mobile-02-after.png) |
-| 3 | [Before](screenshots/desktop-03-before.png) | [After](screenshots/desktop-03-after.png) | [Before](screenshots/mobile-03-before.png) | [After](screenshots/mobile-03-after.png) |
-| 4 | [Before](screenshots/desktop-04-before.png) | [After](screenshots/desktop-04-after.png) | [Before](screenshots/mobile-04-before.png) | [After](screenshots/mobile-04-after.png) |
-| 5 | [Before](screenshots/desktop-05-before.png) | [After](screenshots/desktop-05-after.png) | [Before](screenshots/mobile-05-before.png) | [After](screenshots/mobile-05-after.png) |
-| 6 | [Before](screenshots/desktop-06-before.png) | [After](screenshots/desktop-06-after.png) | [Before](screenshots/mobile-06-before.png) | [After](screenshots/mobile-06-after.png) |
-| 7 | [Before](screenshots/desktop-07-before.png) | [After](screenshots/desktop-07-after.png) | [Before](screenshots/mobile-07-before.png) | [After](screenshots/mobile-07-after.png) |
+One inherited source inconsistency remains documented without rewriting education: `steps[4].copy.a11yChoices` says the hint is available after an incorrect attempt, while `steps[4].config.offerHintAfterAttempts` is 0 and the revised brief explicitly requires immediate access. The implementation follows the configured immediate hint threshold and preserves the authored text. For phased stages, the exact current authored question supplies phase-specific assistive instructions instead of mounting a future-task overview. No additional ChatGPT round is requested by this implementation.
 
-Reproduce against a running production preview:
+## Screenshot evidence
+
+The folder contains **94 actual rendered PNGs**: briefing/completion plus initial, wrong-answer, hint, intermediate-success and final states for every applicable phase, on desktop and mobile. The manifest files record the exact question, feedback, hint and computed result coordinates for each challenge capture. Captures wait for final arrow endpoints and fail on browser errors or horizontal overflow. These are real browser renders, not mockups.
+
+[Browse the image folder](screenshots) or download this directory and open [the filterable gallery](gallery.html). Selected states:
+
+![Compact calculation workspace](screenshots/desktop-04-calculate-output-initial.png)
+
+![Directly selectable candidate diagrams](screenshots/desktop-06-choose-directions-initial.png)
+
+![Final reveal preserves the answer column](screenshots/desktop-07-classify-vector-final.png)
+
+| Stage and phase | Desktop initial | Wrong answer | Hint | Success | Mobile initial | Mobile success |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1: predict-output | [Initial](screenshots/desktop-01-predict-output-initial.png) | [Wrong](screenshots/desktop-01-predict-output-wrong.png) | [Hint](screenshots/desktop-01-predict-output-hint.png) | [Success](screenshots/desktop-01-predict-output-final.png) | [Initial](screenshots/mobile-01-predict-output-initial.png) | [Success](screenshots/mobile-01-predict-output-final.png) |
+| 2: classify-line | [Initial](screenshots/desktop-02-classify-line-initial.png) | [Wrong](screenshots/desktop-02-classify-line-wrong.png) | [Hint](screenshots/desktop-02-classify-line-hint.png) | [Success](screenshots/desktop-02-classify-line-final.png) | [Initial](screenshots/mobile-02-classify-line-initial.png) | [Success](screenshots/mobile-02-classify-line-final.png) |
+| 3: hunt-direction | [Initial](screenshots/desktop-03-hunt-direction-initial.png) | [Wrong](screenshots/desktop-03-hunt-direction-wrong.png) | [Hint](screenshots/desktop-03-hunt-direction-hint.png) | [Success](screenshots/desktop-03-hunt-direction-final.png) | [Initial](screenshots/mobile-03-hunt-direction-initial.png) | [Success](screenshots/mobile-03-hunt-direction-final.png) |
+| 4: calculate-output | [Initial](screenshots/desktop-04-calculate-output-initial.png) | [Wrong](screenshots/desktop-04-calculate-output-wrong.png) | [Hint](screenshots/desktop-04-calculate-output-hint.png) | [Success](screenshots/desktop-04-calculate-output-final.png) | [Initial](screenshots/mobile-04-calculate-output-initial.png) | [Success](screenshots/mobile-04-calculate-output-final.png) |
+| 5: same-line | [Initial](screenshots/desktop-05-same-line-initial.png) | [Wrong](screenshots/desktop-05-same-line-wrong.png) | [Hint](screenshots/desktop-05-same-line-hint.png) | [Success](screenshots/desktop-05-same-line-intermediate.png) | [Initial](screenshots/mobile-05-same-line-initial.png) | [Success](screenshots/mobile-05-same-line-intermediate.png) |
+| 5: scale | [Initial](screenshots/desktop-05-scale-initial.png) | [Wrong](screenshots/desktop-05-scale-wrong.png) | [Hint](screenshots/desktop-05-scale-hint.png) | [Success](screenshots/desktop-05-scale-final.png) | [Initial](screenshots/mobile-05-scale-initial.png) | [Success](screenshots/mobile-05-scale-final.png) |
+| 6: choose-directions | [Initial](screenshots/desktop-06-choose-directions-initial.png) | [Wrong](screenshots/desktop-06-choose-directions-wrong.png) | [Hint](screenshots/desktop-06-choose-directions-hint.png) | [Success](screenshots/desktop-06-choose-directions-intermediate.png) | [Initial](screenshots/mobile-06-choose-directions-initial.png) | [Success](screenshots/mobile-06-choose-directions-intermediate.png) |
+| 6: enter-multipliers | [Initial](screenshots/desktop-06-enter-multipliers-initial.png) | [Wrong](screenshots/desktop-06-enter-multipliers-wrong.png) | [Hint](screenshots/desktop-06-enter-multipliers-hint.png) | [Success](screenshots/desktop-06-enter-multipliers-final.png) | [Initial](screenshots/mobile-06-enter-multipliers-initial.png) | [Success](screenshots/mobile-06-enter-multipliers-final.png) |
+| 7: calculate-output | [Initial](screenshots/desktop-07-calculate-output-initial.png) | [Wrong](screenshots/desktop-07-calculate-output-wrong.png) | [Hint](screenshots/desktop-07-calculate-output-hint.png) | [Success](screenshots/desktop-07-calculate-output-intermediate.png) | [Initial](screenshots/mobile-07-calculate-output-initial.png) | [Success](screenshots/mobile-07-calculate-output-intermediate.png) |
+| 7: find-eigenvalue | [Initial](screenshots/desktop-07-find-eigenvalue-initial.png) | [Wrong](screenshots/desktop-07-find-eigenvalue-wrong.png) | [Hint](screenshots/desktop-07-find-eigenvalue-hint.png) | [Success](screenshots/desktop-07-find-eigenvalue-intermediate.png) | [Initial](screenshots/mobile-07-find-eigenvalue-initial.png) | [Success](screenshots/mobile-07-find-eigenvalue-intermediate.png) |
+| 7: classify-vector | [Initial](screenshots/desktop-07-classify-vector-initial.png) | [Wrong](screenshots/desktop-07-classify-vector-wrong.png) | [Hint](screenshots/desktop-07-classify-vector-hint.png) | [Success](screenshots/desktop-07-classify-vector-final.png) | [Initial](screenshots/mobile-07-classify-vector-initial.png) | [Success](screenshots/mobile-07-classify-vector-final.png) |
+
+## Reproduce and preview identity
 
 ```sh
-EVIDENCE_DIR=docs/evidence/eigenvector-alignment-lab/screenshots \
-ALIGNMENT_PREVIEW_URL='http://127.0.0.1:4173/?experience=eigenvector-alignment-lab' \
-npm run test:e2e -- tests/eigen-evidence.spec.ts
+npm ci
+npm run check
+BASE_REF=24d7375f5123fd77c2e4a24a707bbf1c5d7497d7 npm run guard:diff
+EVIDENCE_DIR=docs/evidence/eigenvector-alignment-lab/screenshots npm run test:e2e -- tests/eigen-evidence.spec.ts
 ```
 
-## Whole-output review and repairs
+The review workflow records `review-build.json` with implementation SHA, frozen authoring SHA and spec hash. It publishes `/previews/eigenvector-alignment-lab/<full implementation SHA>/?experience=eigenvector-alignment-lab` and a latest-build alias. It carries forward earlier versioned previews, checks snapshot integrity, refuses to overwrite a SHA with different bytes, and fails rather than silently discard unreachable history. A regression verifies preservation of old URLs, alias replacement and an unchanged main root. The workflow also uploads a downloadable build artifact for 90 days. A separate root-only Pages publication can still replace the whole deployment; the Git commit and build artifact remain the reproducible reference.
 
-The review checked the actual seven before/after pairs on both screen sizes against the intended active challenge sequence, not just whether a page rendered.
-
-1. Answer-bearing authored `graphDescription` strings could spoil stages 1, 4, 6 and 7 through accessibility text. They are gated with the result; the unrevealed diagram uses authored `a11yChoices`, and no diagram exists at all in unrevealed stage 7. Tests inspect DOM descriptions as well as visible result marks/readouts.
-2. The final diagrams mount only on success, so their first implementation skipped interpolation. They now animate from source to output over the same 650 ms as other reveals. A browser regression checks the intermediate and exact final endpoints.
-3. Small-panel grid labels were too small in the first visual pass. Their font size is now increased separately for desktop and mobile while keeping equal scales, authored coordinates and the [-7,7] domain. The final mobile panels remain intentionally compact; numeric source/result readouts remain available beneath them.
-4. Coincident source/result arrows could conceal one encoding at eigenvalue 1. A wider solid source and smaller dashed result/arrowhead preserve both, with separate exact readouts. Arrowhead tips end at the mathematical endpoint rather than beyond it.
-5. Candidate checkboxes and scalar fields have distinct accessible roles, with scalar names including the candidate and multiplier label. Tests initially used ambiguous label selectors; role-specific selectors now verify the real controls. No learner copy was changed to accommodate tests.
-6. The original framework only accepted kebab-case copy keys. It now accepts authored camelCase keys, while strict per-mode schemas reject missing/unknown copy and config keys. Cross-validation rejects mismatched copy modes and independently checks supplied mathematical answers.
-7. Chris's notation correction applies to all vector expressions, not only readouts. The renderer splits existing pairs into stacked components while preserving the original text exactly. Square brackets replace initially ambiguous vertical bars visually. Each vector's accessible math name remains its exact original expression; this avoids inserting layout-induced spaces into checkbox and scalar-field names. Mobile and desktop screenshots were recaptured after this correction.
-
-The copy guard change permits conditional values in existing technical attributes (such as SVG `role`). It does not exempt `aria-label`, explanations or generated sentences; regression tests confirm these remain rejected. Separate generated extension schemas and a semantic validation hook are explicit authoring-contract changes, documented in `docs/INTERACTIONS.md`.
-
-## Points for ChatGPT's fidelity decision
-
-- **Exact authored feedback versus the broad hidden-result rule:** `steps[6].copy.feedbackContainsC`, `feedbackContainsD`, `feedbackWrongScaleA` and `feedbackWrongScaleB`, and `steps[7].copy.feedbackWrongScale` / `feedbackWrongClassification`, disclose some answer numbers during an incorrect attempt. The implementation preserves those explicitly prescribed, triggered feedback strings, while withholding result diagrams/readouts and unsolicited descriptions until success. Please confirm this intended exception or issue a separate authoring correction. It would be inaccurate to claim that no possible answer text exists anywhere before success; stage 1 choices also necessarily contain the correct coordinates.
-- Stage 6 reveals A/B results only, following its specific mode contract. C/D panels retain source vectors. No extra comparisons or explanatory copy were invented.
-- Authored teal/orange values are unchanged. The palette check passed white-background graphical contrast and simulated color-vision separation; teal failed a general chroma-floor style heuristic. Solid/dashed encodings and exact readouts provide redundant identification. This heuristic is not itself a WCAG failure or a reason to rewrite authored colors.
-- Attempt count, hint use and correctness are kept in React memory and exposed as technical DOM data for verification. Restart clears the run; reload loses it. No accounts, server storage, analytics or mastery claims were added.
-- Fixed domain, numeric tick labels every two unit grid lines, compact mobile panels, and diagram-free-to-two-panel final reveal should be reviewed in the preview for teaching clarity. There are no known outstanding software test failures. Author fidelity and educational effectiveness remain separate, pending decisions.
+For local use, `npm run preview` serves `dist/`; open `http://localhost:4173/?experience=eigenvector-alignment-lab`. A downloaded static build must be served over HTTP, not opened with `file://`.
