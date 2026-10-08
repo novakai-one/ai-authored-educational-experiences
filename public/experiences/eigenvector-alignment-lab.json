@@ -24,7 +24,9 @@
     "Challenge 6 first checks the TWO candidate directions, then reveals multiplier inputs for only those directions. No transformed arrows appear before full success.",
     "Challenge 7 presents output calculation, scalar, and second-vector classification as three consecutive phases. No diagrams before full success.",
     "Every learner-facing string, including newly required phase buttons and transitional feedback, is from this specification. No coder-generated teaching.",
-    "Real learning remains unverified until a learner can complete a later transfer task independently and reports the instructions clear."
+    "Real learning remains unverified until a learner can complete a later transfer task independently and reports the instructions clear.",
+    "At the exit-ticket multiplier phase, show only the previously confirmed output (2, 0) → (6, 0) as a compact authored reference, so the learner does not have to memorise their prior calculation. This is earned feedback, not an early answer leak.",
+    "Hints are available on request immediately for the harder calculate-output, two-directions and exit-ticket stages; using a hint is recorded separately from completing unaided."
   ],
   "start": "briefing",
   "steps": [
@@ -324,7 +326,7 @@
       "kind": "custom",
       "title": "Work it out before looking",
       "body": [
-        "The orange arrow is hidden. The top matrix row gives its x. The bottom row gives its y."
+        "Use the matrix to work out the orange arrow's coordinates. It's hidden until you answer."
       ],
       "component": "eigen-mission",
       "version": 1,
@@ -389,7 +391,7 @@
         "tolerance": 0,
         "acceptedNumberFormat": "signed-decimal",
         "resultVisibility": "after-correct-commit",
-        "offerHintAfterAttempts": 1,
+        "offerHintAfterAttempts": 0,
         "workRows": [
           [
             1,
@@ -607,7 +609,7 @@
         ],
         "tolerance": 0,
         "resultVisibility": "after-correct-commit",
-        "offerHintAfterAttempts": 1,
+        "offerHintAfterAttempts": 0,
         "graphLayout": "four-small-multiples",
         "labelCandidatesWithCopyKeys": true,
         "answerSequence": [
@@ -656,13 +658,14 @@
         "feedbackWrongClassification": "Calculate the output of (1, 1). Does one multiplier work for x and y?",
         "feedbackCorrect": "Correct. You worked it out without the picture.",
         "revealExplanation": "(2, 0) becomes (6, 0), so its eigenvalue is 3. But (1, 1) becomes (3, 2): no single multiplier works for both coordinates.",
-        "a11yChoices": "First calculate the output for (2, 0). Then find its multiplier. Finally decide whether (1, 1) keeps its direction. No diagram appears before success.",
+        "a11yChoices": "First calculate the output for (2, 0). When that's correct, use the confirmed result to find the multiplier. Finally test (1, 1). Diagrams stay hidden until the end.",
         "a11yReveal": "(2, 0) becomes (6, 0), eigenvalue 3. (1, 1) becomes (3, 2) and is not an eigenvector.",
         "outputSubmitLabel": "Check the output",
         "outputCorrectText": "The output is right. Now compare it with the input.",
         "scaleSubmitLabel": "Check the multiplier",
         "scaleCorrectText": "That's right. One last question.",
-        "phaseContinueLabel": "Continue"
+        "phaseContinueLabel": "Continue",
+        "outputConfirmedText": "Input (2, 0) → output (6, 0)."
       },
       "config": {
         "mode": "exit-ticket",
@@ -720,7 +723,7 @@
         "tolerance": 0,
         "resultVisibility": "after-correct-commit",
         "graphVisibility": "after-correct-commit",
-        "offerHintAfterAttempts": 1,
+        "offerHintAfterAttempts": 0,
         "successRequires": [
           "a-output",
           "a-scale",
