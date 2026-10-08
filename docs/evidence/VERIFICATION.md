@@ -49,6 +49,10 @@ The activity includes keyboard-operable sliders, an SVG vector visualization, au
 
 ## Publication status
 
-At verification time the new public GitHub repository could not be created. Both `gh repo create` and `POST /user/repos` returned **403: Resource not accessible by integration** for the connected `novakai-one` credential. No existing repository was modified. In particular, `claude-ai-demo` was neither opened nor changed.
+Published to [novakai-one/ai-authored-educational-experiences](https://github.com/novakai-one/ai-authored-educational-experiences), a new public repository supplied by the owner after the connection's repository-creation limit was identified. The default branch is `main`; `authoring/first-experience` is prepared for ChatGPT. No existing repository was modified. In particular, `claude-ai-demo` was neither opened nor changed.
 
-The local repository uses `main`. GitHub Actions, branch protection and Pages deployment have **not** been run or enabled remotely. CI and an optional Pages workflow are committed and ready; local verification is the evidence reported above. Once an empty public `novakai-one/ai-authored-educational-experiences` repository is created and accessible to the connection, push this repository and enable the settings described in [WORKFLOW.md](../WORKFLOW.md).
+The initial publication is commit `e9b753d461b8719b0535bfc762b20d61ddf9166b`. [Remote verification and preview artifacts](https://github.com/novakai-one/ai-authored-educational-experiences/actions/runs/37757105293) run against that commit. The GitHub copy of the placeholder was downloaded and its SHA-256 matches the canonical hash above. Later documentation-only publication updates do not change the validated application or specification.
+
+GitHub Pages has **not** been enabled: the Pages-creation API returned HTTP 403 because the installed connection lacks repository administration permission. The working preview is available as the `preview-dist` artifact from a successful CI run; extract it and run `npx serve .`. The optional Pages workflow is ready after the owner selects **Settings → Pages → Source: GitHub Actions**.
+
+The same permission limit prevented inspecting/configuring server-side branch protection. Do not infer that branch rules are active from `CODEOWNERS` or the committed workflows. The owner can enable the rules described in [WORKFLOW.md](../WORKFLOW.md). CI and the local content/ownership guards are implemented independently of those settings.

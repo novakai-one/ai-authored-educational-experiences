@@ -2,6 +2,8 @@
 
 An experiment in **ChatGPT authoring the complete educational experience** and coding agents implementing it faithfully. ChatGPT owns exact learner-facing wording, reasoning, sequence, activities, feedback, visual intent, and learning criteria. Codex and Claude Code own the software.
 
+Public repository: [novakai-one/ai-authored-educational-experiences](https://github.com/novakai-one/ai-authored-educational-experiences). Default branch: `main`. A clean [`authoring/first-experience`](https://github.com/novakai-one/ai-authored-educational-experiences/tree/authoring/first-experience) branch is ready for the first authored experience.
+
 The included linear algebra activity is an **unapproved technical placeholder**, not a lesson about eigenvectors. No actual educational experience has been approved. Software tests do not establish educational quality.
 
 ## Start here
@@ -62,6 +64,8 @@ Unapproved experiences always display a technical status banner and an authored 
 ## GitHub preview
 
 CI validates, builds, runs Chromium tests and uploads `preview-dist` and `implementation-evidence` artifacts. Download `preview-dist` and serve the extracted directory with `npx serve .`; open the URL it prints. Do not open `index.html` using `file://`.
+
+Find these artifacts in a successful [Verify implementation run](https://github.com/novakai-one/ai-authored-educational-experiences/actions/workflows/ci.yml). Select the run for the exact implementation commit under review; GitHub sign-in is required to download Actions artifacts.
 
 The Pages workflow is ready for an owner to enable **Settings → Pages → Source: GitHub Actions**, then run **Deploy preview**. It publishes the technical demonstration. PR previews are downloadable artifacts; this repository does not automatically publish unreviewed PR code to the public site.
 
