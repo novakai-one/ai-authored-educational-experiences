@@ -53,3 +53,27 @@ Intentional exceptions to the general concealment rule remain: (a) stage 1 is ex
 ## Educational quality (separate from fidelity)
 
 **Not approved / not assessed with learner.** The technical sequence is more promising than the placeholder, but functional correctness does not establish whether the language, pacing, interface and challenge difficulty effectively teach eigenvectors. Evaluate with actual learner practice and check independent transfer/retention after the implementation is faithful.
+
+
+## Later educational-design review: learner screenshot (2026-10-08)
+
+**New user finding:** On the stage 3 screenshot, the authored title and three body paragraphs plus an additional question forced the learner to process a matrix rule, manipulation, desired alignment, a zero-vector caveat, and a second action instruction simultaneously. The user reported the interface was confusing, wordy and required repeated mental switching. That is a failure of **ChatGPT's original authoring**, not a sign that Codex changed the intended content.
+
+**Educational author decision: REDESIGN REQUIRED before fidelity acceptance.**
+
+The authoring branch now carries the revised specification and contract. This review supersedes earlier instructions to implement the original all-at-once stages 5–7.
+
+- All stage titles and introductions shortened; each stage starts with one visible question. Full mathematical explanation is postponed until after an answer.
+- Stage 3 now opens with exactly: title **Make the arrows line up**; body **Move the teal dot. Watch the orange arrow.**; question **Can you get the orange arrow onto the dotted line?** The origin caveat is reactive feedback, not upfront prose.
+- Stage 5: first classify same-line, then (after author-written feedback and Continue) calculate the negative multiplier. Do not show both fields at once.
+- Stage 6: first select two working directions, then (after feedback and Continue) enter the multipliers for those choices. Do not show scalar fields at the first decision.
+- Stage 7: first calculate the output, then compute its multiplier, then classify a new vector, with author-written feedback and Continue between phases. The previously **earned** result appears as a compact authored reference in phase 2 so the learner does not need to memorise it.
+- Optional hints for the calculation-heavy stages are immediately accessible and tracked as helped/unaided. The numerical solution and result diagram are still not revealed before an appropriate commitment.
+- Vector expressions still require stacked two-entry column notation everywhere, without changing mathematical values.
+
+**Authoring source:** `public/experiences/eigenvector-alignment-lab.json` on `authoring/eigenvector-alignment-lab`.  
+**Engineering contract:** `authoring/briefs/eigenvector-alignment-lab.md` on the same branch.
+
+**Acceptance for next fidelity pass:** Browser tests must verify that no future-phase question/input is mounted before the current phase has been correctly submitted and the learner chooses Continue; each phase uses exact authored text; result reveal gates and math remain intact; mobile screenshots visibly show only one task at a time. If code renders future-phase fields together, even disabled or greyed out, fidelity is not accepted.
+
+**Status remains CHANGES REQUESTED.** The user-provided stage 3 screenshot establishes a meaningful educational design problem in the former version, but does not validate the new design. The updated experience is not yet rendered or learner-tested. No educational approval and no merge to main until the new experience has been reviewed.
